@@ -2,6 +2,284 @@
     border: 1px red solid;
 }  */
 
+/* ============================================
+   USERNAME MODAL
+   ============================================ */
+#username-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Comic Neue', cursive, sans-serif;
+}
+
+#username-overlay.active {
+    display: flex;
+}
+
+#username-modal {
+    background: linear-gradient(145deg, #8B3A3A, #5C1A1A);
+    border: 6px solid #A0522D;
+    border-radius: 20px;
+    padding: 2.5vw 3vw;
+    width: 35vw;
+    max-width: 500px;
+    text-align: center;
+    box-shadow:
+        0 0 20px rgba(0, 0, 0, 0.7),
+        inset 0 0 30px rgba(255, 200, 150, 0.1);
+    position: relative;
+}
+
+#username-modal h2 {
+    color: #FFD700;
+    font-size: 2vw;
+    margin: 0 0 0.5vw 0;
+    text-shadow:
+        0 0 10px rgba(255, 215, 0, 0.5),
+        2px 2px 4px rgba(0, 0, 0, 0.8);
+    letter-spacing: 0.05em;
+}
+
+#username-modal .subtitle {
+    color: #FFE0B2;
+    font-size: 1vw;
+    margin: 0 0 1.5vw 0;
+    opacity: 0.9;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+}
+
+#username-modal .input-group {
+    display: flex;
+    gap: 0.5vw;
+    margin-bottom: 1vw;
+}
+
+#username-modal input[type="text"] {
+    flex: 1;
+    padding: 0.8vw 1.2vw;
+    border: 3px solid #A0522D;
+    border-radius: 10px;
+    font-size: 1.1vw;
+    font-family: 'Comic Neue', cursive, sans-serif;
+    background: #FFF8F0;
+    color: #3E1F1F;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+#username-modal input[type="text"]:focus {
+    border-color: #FFD700;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+}
+
+#username-modal .btn-primary {
+    padding: 0.8vw 1.5vw;
+    background: linear-gradient(145deg, #FF8C00, #D2691E);
+    color: white;
+    border: 2px solid #FFD700;
+    border-radius: 10px;
+    font-size: 1.1vw;
+    font-weight: bold;
+    font-family: 'Comic Neue', cursive, sans-serif;
+    cursor: pointer;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+    transition: transform 0.2s, box-shadow 0.2s;
+    white-space: nowrap;
+}
+
+#username-modal .btn-primary:hover {
+    transform: scale(1.05);
+    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.5);
+}
+
+#username-modal .btn-primary:active {
+    transform: scale(0.95);
+}
+
+#username-modal .saved-accounts-title {
+    color: #FFE0B2;
+    font-size: 1vw;
+    margin: 1.2vw 0 0.5vw 0;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+    border-top: 2px solid rgba(255, 224, 178, 0.3);
+    padding-top: 1vw;
+}
+
+#saved-accounts-list {
+    max-height: 10vw;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4vw;
+    padding: 0.3vw;
+}
+
+#saved-accounts-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+#saved-accounts-list::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+}
+
+#saved-accounts-list::-webkit-scrollbar-thumb {
+    background: #A0522D;
+    border-radius: 3px;
+}
+
+.saved-account-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 215, 0, 0.3);
+    border-radius: 8px;
+    padding: 0.5vw 1vw;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+}
+
+.saved-account-item:hover {
+    background: rgba(255, 215, 0, 0.2);
+    border-color: #FFD700;
+}
+
+.saved-account-item .account-name {
+    color: #FFF;
+    font-size: 1vw;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.saved-account-item .account-delete {
+    background: none;
+    border: none;
+    color: #FF6B6B;
+    font-size: 1.2vw;
+    cursor: pointer;
+    padding: 0 0.3vw;
+    transition: transform 0.2s, color 0.2s;
+    line-height: 1;
+}
+
+.saved-account-item .account-delete:hover {
+    transform: scale(1.3);
+    color: #FF0000;
+}
+
+#username-modal .error-msg {
+    color: #FF6B6B;
+    font-size: 0.9vw;
+    margin: 0.3vw 0;
+    min-height: 1.2vw;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* ============================================
+   USERNAME BADGE IN HEADER
+   ============================================ */
+#user-badge {
+    display: none;
+    align-items: center;
+    gap: 0.5vw;
+    background: linear-gradient(145deg, #8B3A3A, #5C1A1A);
+    border: 2px solid #FFD700;
+    border-radius: 20px;
+    padding: 0.3vw 1vw 0.3vw 0.8vw;
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 0 8px rgba(255, 215, 0, 0.2);
+}
+
+#user-badge:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+}
+
+#user-badge .avatar {
+    width: 1.8vw;
+    height: 1.8vw;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #FFD700, #FF8C00);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9vw;
+    font-weight: bold;
+    color: #3E1F1F;
+    text-shadow: none;
+    flex-shrink: 0;
+}
+
+#user-badge .username-display {
+    color: #FFD700;
+    font-size: 0.9vw;
+    font-weight: bold;
+    font-family: 'Comic Neue', cursive, sans-serif;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    max-width: 8vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+#user-badge .dropdown-arrow {
+    color: #FFD700;
+    font-size: 0.6vw;
+    margin-left: 0.2vw;
+}
+
+#user-dropdown {
+    display: none;
+    position: absolute;
+    top: 110%;
+    right: 0;
+    background: linear-gradient(145deg, #6B2A2A, #3E1F1F);
+    border: 2px solid #A0522D;
+    border-radius: 10px;
+    min-width: 12vw;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.6);
+    z-index: 100;
+    overflow: hidden;
+}
+
+#user-dropdown.active {
+    display: block;
+}
+
+#user-dropdown .dropdown-item {
+    padding: 0.6vw 1vw;
+    color: #FFE0B2;
+    font-size: 0.85vw;
+    font-family: 'Comic Neue', cursive, sans-serif;
+    cursor: pointer;
+    transition: background 0.2s;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+#user-dropdown .dropdown-item:last-child {
+    border-bottom: none;
+}
+
+#user-dropdown .dropdown-item:hover {
+    background: rgba(255, 215, 0, 0.15);
+    color: #FFD700;
+}
+
+#user-dropdown .dropdown-item .item-icon {
+    margin-right: 0.5vw;
+}
+
 
 body, html {
     margin: 0;

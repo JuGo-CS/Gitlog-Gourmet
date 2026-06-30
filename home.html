@@ -10,17 +10,24 @@
     <div id="aspect-ratio-wrapper">
         <div id="game-container">
             <header>
-                <button id="home-menu-button">
-                    <!-- <img src="assets/images/homeMenuIcon.png" alt="Home Menu"> -->
-                    <!-- <img id="game-logo" src="assets/images/game-logo.png"> -->
+                <!-- User badge (shown when logged in) -->
+                <div id="user-badge" onclick="toggleUserDropdown()">
+                    <div class="avatar">G</div>
+                    <span class="username-display" id="username-display-text">Guest</span>
+                    <span class="dropdown-arrow">&#9660;</span>
+                    <div id="user-dropdown">
+                        <div class="dropdown-item" onclick="event.stopPropagation(); openUsernameModal();">
+                            <span class="item-icon">&#128100;</span> Switch Account
+                        </div>
+                        <div class="dropdown-item" onclick="event.stopPropagation(); logoutUser();">
+                            <span class="item-icon">&#128682;</span> Log Out
+                        </div>
+                    </div>
+                </div>
+
+                <button id="home-menu-button" style="display:none;">
                     LOG OUT
                 </button>
-                <!-- 
-                <nav>
-                    <a href="leaderboard.html">
-                        <img src="assets/images/trophyIcon.png" alt="Leaderboard">
-                    </a>
-                </nav> -->
             </header>
 
 
@@ -65,6 +72,27 @@
     </div>
     
     
+    <!-- ============================================
+         USERNAME MODAL
+         ============================================ -->
+    <div id="username-overlay">
+        <div id="username-modal">
+            <h2>&#127858; Welcome to Gitlog Gourmet!</h2>
+            <p class="subtitle">Enter your username to start playing</p>
+
+            <div class="input-group">
+                <input type="text" id="username-input" placeholder="Enter username..." maxlength="20" autocomplete="off">
+                <button class="btn-primary" onclick="handleUsernameSubmit()">Let's Go!</button>
+            </div>
+
+            <div class="error-msg" id="username-error"></div>
+
+            <div class="saved-accounts-title">&#128195; Saved Accounts</div>
+            <div id="saved-accounts-list"></div>
+        </div>
+    </div>
+
+    <script src="username-manager.js"></script>
     <script src="animationElements.js"></script>
 </body>
 </html>
