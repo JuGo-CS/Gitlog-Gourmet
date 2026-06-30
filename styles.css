@@ -250,11 +250,11 @@
     display: none;
     position: absolute;
     top: 110%;
-    right: 0;
+    left: 0;
     background: linear-gradient(145deg, #6B2A2A, #3E1F1F);
     border: 2px solid #A0522D;
     border-radius: 10px;
-    min-width: 12vw;
+    min-width: 14vw;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.6);
     z-index: 100;
     overflow: hidden;
@@ -273,6 +273,8 @@
     transition: background 0.2s;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     user-select: none;
+    text-align: left;
+    white-space: nowrap;
 }
 
 #user-dropdown .dropdown-item:last-child {
