@@ -30,15 +30,17 @@
 
             <header>
                 <!-- User badge -->
-                <div id="user-badge" onclick="toggleUserDropdown()">
-                    <div class="avatar">G</div>
-                    <span class="username-display" id="username-display-text">Guest</span>
-                    <span class="dropdown-arrow">&#9660;</span>
+                <div id="user-badge">
+                    <div class="badge-toggle">
+                        <div class="avatar">G</div>
+                        <span class="username-display" id="username-display-text">Guest</span>
+                        <span class="dropdown-arrow">&#9660;</span>
+                    </div>
                     <div id="user-dropdown">
-                        <div class="dropdown-item" onclick="event.stopPropagation(); openUsernameModal();">
+                        <div class="dropdown-item" data-action="switch">
                             <span class="item-icon">&#128100;</span> Switch Account
                         </div>
-                        <div class="dropdown-item" onclick="event.stopPropagation(); window.location.href='home.html'">
+                        <div class="dropdown-item" data-action="logout">
                             <span class="item-icon">&#128682;</span> Log Out
                         </div>
                     </div>

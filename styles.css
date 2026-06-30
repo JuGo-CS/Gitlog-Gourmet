@@ -190,18 +190,25 @@
 #user-badge {
     display: none;
     align-items: center;
-    gap: 0.5vw;
     background: linear-gradient(145deg, #8B3A3A, #5C1A1A);
     border: 2px solid #FFD700;
     border-radius: 20px;
-    padding: 0.3vw 1vw 0.3vw 0.8vw;
-    cursor: pointer;
+    padding: 0.2vw 0.2vw 0.2vw 0.2vw;
     position: relative;
-    transition: transform 0.2s, box-shadow 0.2s;
     box-shadow: 0 0 8px rgba(255, 215, 0, 0.2);
 }
 
-#user-badge:hover {
+#user-badge .badge-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.5vw;
+    padding: 0.1vw 0.8vw 0.1vw 0.6vw;
+    cursor: pointer;
+    border-radius: 20px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+#user-badge .badge-toggle:hover {
     transform: scale(1.05);
     box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
 }
@@ -265,6 +272,7 @@
     cursor: pointer;
     transition: background 0.2s;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    user-select: none;
 }
 
 #user-dropdown .dropdown-item:last-child {

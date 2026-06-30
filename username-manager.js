@@ -190,26 +190,37 @@ function updateUserBadge(username) {
         badge.style.display = "none";
         if (menuBtn) menuBtn.style.display = "block";
     }
+
+    // Close dropdown on badge update
+    closeUserDropdown();
 }
 
 function toggleUserDropdown() {
     const dropdown = document.getElementById("user-dropdown");
     if (dropdown) {
-        dropdown.classList.toggle("active");
+        const isActive = dropdown.classList.contains("active");
+        // Close all other open dropdowns first
+        closeUserDropdown();
+        // Toggle this one
+        if (!isActive) {
+            dropdown.classList.add("active");
+        }
     }
 }
 
 function closeUserDropdown() {
-    const dropdown = document.getElementById("user-dropdown");
-    if (dropdown) {
-        dropdown.classList.remove("active");
-    }
+    document.querySelectorAll("#user-dropdown.active").forEach(d => {
+        d.classList.remove("active");
+    });
 }
 
 // ============================================================
 // HANDLE "LOG OUT" / SWITCH USER
 // ============================================================
 function logoutUser() {
+    // Clear the active username so the modal shows fresh
+    setActiveUsername("");
+    updateUserBadge("");
     closeUserDropdown();
     openUsernameModal();
 }
@@ -223,6 +234,7 @@ function handleUsernameSubmit() {
     if (!input || !error) return;
 
     const name = input.value.trim();
+    error.textContent = "";
 
     if (!isValidUsername(name)) {
         error.textContent = "Username must be 2-20 characters.";
@@ -236,6 +248,7 @@ function handleUsernameSubmit() {
     if (exists) {
         // Just switch to it
         switchToUsername(name);
+        input.value = "";
         return;
     }
 
@@ -243,6 +256,7 @@ function handleUsernameSubmit() {
     addUsername(name);
     setActiveUsername(name);
     updateUserBadge(name);
+    input.value = "";
     closeUsernameModal();
 }
 
@@ -268,11 +282,56 @@ function initializeUsernameSystem() {
 
     // Close dropdown when clicking outside
     document.addEventListener("click", function (e) {
-        const badge = document.getElementById("user-badge");
         const dropdown = document.getElementById("user-dropdown");
-        if (badge && dropdown && !badge.contains(e.target)) {
-            dropdown.classList.remove("active");
+        if (dropdown && dropdown.classList.contains("active")) {
+            // Check if click is outside the entire badge area
+            const badge = document.getElementById("user-badge");
+            if (badge && !badge.contains(e.target)) {
+                dropdown.classList.remove("active");
+            }
         }
+    });
+
+    // Prevent modal close when clicking inside the modal itself
+    const modal = document.getElementById("username-modal");
+    if (modal) {
+        modal.addEventListener("click", function (e) {
+            e.stopPropagation();
+        });
+    }
+
+    // Close modal when clicking the overlay background (not the modal)
+    const overlay = document.getElementById("username-overlay");
+    if (overlay) {
+        overlay.addEventListener("click", function () {
+            // Only close if there's an active user (don't force if no user)
+            if (getActiveUsername()) {
+                closeUsernameModal();
+            }
+        });
+    }
+
+    // Attach click handler to the badge toggle area
+    const badgeToggle = document.querySelector("#user-badge .badge-toggle");
+    if (badgeToggle) {
+        badgeToggle.addEventListener("click", function (e) {
+            e.stopPropagation();
+            toggleUserDropdown();
+        });
+    }
+
+    // Attach click handlers to dropdown items via data-action
+    document.querySelectorAll("#user-dropdown .dropdown-item").forEach(item => {
+        item.addEventListener("click", function (e) {
+            e.stopPropagation();
+            const action = this.dataset.action;
+            if (action === "switch") {
+                closeUserDropdown();
+                openUsernameModal();
+            } else if (action === "logout") {
+                logoutUser();
+            }
+        });
     });
 
     // Enter key in input
