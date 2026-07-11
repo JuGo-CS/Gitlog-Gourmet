@@ -2,7 +2,9 @@
 // LEADERBOARD LOGIC
 // Note: Supabase client is loaded from supabase-helper.js
 // ============================================================
-// ============================================================
+
+let currentBoard = 1;
+let currentDifficulty = "ALL";
 
 document.addEventListener("DOMContentLoaded", initializePage);
 
@@ -20,6 +22,7 @@ function initializePage(){
 }
 
 function selectBoard(boardNum) {
+    currentBoard = boardNum;
     const radio = document.getElementById(`game${boardNum}-radio`);
     if (radio) {
         radio.checked = true;
@@ -35,39 +38,37 @@ function selectBoard(boardNum) {
     }
 }
 
+function selectDifficulty(diff) {
+    currentDifficulty = diff;
+    document.querySelectorAll('.diff-btn').forEach(btn => {
+        btn.classList.remove('active-diff');
+    });
+    const activeDiff = document.querySelector(`.diff-btn[data-diff="${diff}"]`);
+    if (activeDiff) activeDiff.classList.add('active-diff');
+
+    // Reload the current board
+    if (currentBoard === 1) loadLeaderboardGame1();
+    else loadLeaderboardGame2();
+}
+
 async function loadLeaderboardGame1() {
     try {
-        console.log("Fetching Game 1 leaderboard from Supabase...");
-        console.log("URL:", SUPABASE_URL);
-        
-        const { data, error } = await supabaseClient
+        let query = supabaseClient
             .from('leaderboard_game1')
-            .select('*')
+            .select('*');
+
+        if (currentDifficulty !== "ALL") {
+            query = query.eq('rating', currentDifficulty);
+        }
+
+        const { data, error } = await query
             .order('score', { ascending: false })
             .limit(50);
 
-        if (error) {
-            console.error("Supabase error details:", error);
-            // Try alternative column name
-            console.log("Trying with alternative column name 'MG_highest_score'...");
-            const { data: altData, error: altError } = await supabaseClient
-                .from('leaderboard_game1')
-                .select('*')
-                .order('MG_highest_score', { ascending: false })
-                .limit(50);
-                
-            if (!altError && altData) {
-                return renderLeaderboard('leaderboard-game1-body', altData, 'MG_highest_score');
-            }
-            throw error;
-        }
+        if (error) throw error;
 
-        console.log("Game 1 data received:", data);
         renderLeaderboard('leaderboard-game1-body', data, 'score');
     } catch (error) {
-        console.error("Error loading Game 1 leaderboard:", error);
-        console.error("Error message:", error.message);
-        console.error("Error code:", error.code);
         document.getElementById("leaderboard-game1-body").innerHTML =
             `<tr><td colspan='3' class='error-message'>⚠️ Failed to load leaderboard (${error.message || "connection error"})</td></tr>`;
     }
@@ -75,35 +76,22 @@ async function loadLeaderboardGame1() {
 
 async function loadLeaderboardGame2() {
     try {
-        console.log("Fetching Game 2 leaderboard from Supabase...");
-        const { data, error } = await supabaseClient
+        let query = supabaseClient
             .from('leaderboard_game2')
-            .select('*')
+            .select('*');
+
+        if (currentDifficulty !== "ALL") {
+            query = query.eq('rating', currentDifficulty);
+        }
+
+        const { data, error } = await query
             .order('score', { ascending: false })
             .limit(50);
 
-        if (error) {
-            console.error("Supabase error details:", error);
-            // Try alternative column name
-            console.log("Trying with alternative column name 'CB_highest_score'...");
-            const { data: altData, error: altError } = await supabaseClient
-                .from('leaderboard_game2')
-                .select('*')
-                .order('CB_highest_score', { ascending: false })
-                .limit(50);
-                
-            if (!altError && altData) {
-                return renderLeaderboard('leaderboard-game2-body', altData, 'CB_highest_score');
-            }
-            throw error;
-        }
+        if (error) throw error;
 
-        console.log("Game 2 data received:", data);
         renderLeaderboard('leaderboard-game2-body', data, 'score');
     } catch (error) {
-        console.error("Error loading Game 2 leaderboard:", error);
-        console.error("Error message:", error.message);
-        console.error("Error code:", error.code);
         document.getElementById("leaderboard-game2-body").innerHTML =
             `<tr><td colspan='3' class='error-message'>⚠️ Failed to load leaderboard (${error.message || "connection error"})</td></tr>`;
     }

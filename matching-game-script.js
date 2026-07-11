@@ -271,6 +271,23 @@ function endGame(){
         hourglass.src = 'assets/images/hourglass.png';
     }
 
+    // Calculate time bonus: faster = more points
+    // Under 30s = full bonus, 30-120s = scaling, over 120s = minimal
+    let timeBonus = 0;
+    if (secondsElapse <= 30) {
+        timeBonus = 2000;
+    } else if (secondsElapse <= 120) {
+        // Linear scale from 2000 down to 200
+        timeBonus = Math.round(2000 - ((secondsElapse - 30) / 90) * 1800);
+    } else {
+        timeBonus = Math.max(100, Math.round(200 - ((secondsElapse - 120) / 60) * 100));
+    }
+
+    // Apply difficulty multiplier to final score
+    const difficultyMultiplier = difficulty === "EASY" ? 1 : difficulty === "MEDIUM" ? 1.5 : 2;
+    const finalScore = Math.round((score + timeBonus) * difficultyMultiplier);
+    score = finalScore;
+
     document.getElementById('game1-end-card').style.display = 'flex';
     document.getElementById('tiles-flipped-end-card').innerHTML = numOfTilesFlipped;
     document.getElementById('elapsed-time-end-card').innerHTML = getTextFormTimeElapse();

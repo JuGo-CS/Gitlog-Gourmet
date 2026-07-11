@@ -30,6 +30,12 @@
                         <button id="leaderboard-game1-switch" onclick="selectBoard(1)">MATCHING PAIR</button>
                         <button id="leaderboard-game2-switch" onclick="selectBoard(2)">CODE BREAKER</button>
                     </div>
+                    <div id="leaderboard-difficulty-container">
+                        <button class="diff-btn active-diff" data-diff="ALL" onclick="selectDifficulty('ALL')">ALL</button>
+                        <button class="diff-btn" data-diff="EASY" onclick="selectDifficulty('EASY')">🌱 EASY</button>
+                        <button class="diff-btn" data-diff="MEDIUM" onclick="selectDifficulty('MEDIUM')">⚡ MEDIUM</button>
+                        <button class="diff-btn" data-diff="HARD" onclick="selectDifficulty('HARD')">🔥 HARD</button>
+                    </div>
                     <div id="leaderboard-table-container">
                         <input type="radio" name="active-board" id='game1-radio' checked>
                         <table id="game1-board">
