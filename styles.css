@@ -380,6 +380,38 @@
     margin-left: 0.2vw;
 }
 
+/* ============================================
+   GITHUB LINK IN HEADER
+   ============================================ */
+#github-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5vw;
+    height: 2.5vw;
+    color: #ffffff;
+    transition: transform 0.2s, color 0.2s;
+    position: absolute;
+    right: 2%;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 5;
+    filter: drop-shadow(0 0 6px rgb(0, 0, 0));
+    background-color: #000000;
+    border-radius: 100%;
+}
+
+#github-link:hover {
+    color: #FFD700;
+    transform: translateY(-50%) scale(1.2);
+    filter: drop-shadow(0 0 12px rgba(214, 102, 102, 0.8));
+}
+
+#github-link svg {
+    width: 100%;
+    height: 100%;
+}
+
 #user-dropdown {
     display: none;
     position: absolute;
@@ -435,7 +467,6 @@ body, html {
     justify-content: center;
     flex-direction: column;
     background-color: #000000;
-
 }
 
 #aspect-ratio-wrapper {
@@ -494,6 +525,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: relative;
 
 
     #game-logo {
@@ -658,7 +690,7 @@ main {
             letter-spacing:0.1em;
 
 
-            background-color: hsl(0, 58%, 62%, 0.7);
+            background-color: hsl(0, 59%, 41%, 0.8);
             border: hsl(0, 59%, 41%, 0.8) 10px solid;
             border-radius: 25% 0% 0 0;
 
