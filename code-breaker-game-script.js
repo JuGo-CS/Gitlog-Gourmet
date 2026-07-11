@@ -1,18 +1,45 @@
 const numGuessOptions = 5;
 const numGuessTypes = 4;
-const maxAttempts = 6;
 
+let maxAttempts = 8;
 const correctValues = [];
-
 let attemptNum = 1;
-let difficulty = "Easy";
+let difficulty = "EASY";
 
-document.addEventListener("DOMContentLoaded", initializeGame);
+document.addEventListener("DOMContentLoaded", function () {
+    // Don't auto-start — wait for difficulty choice
+});
 
 document.getElementById("game2-reset-button").addEventListener("click", resetGuess);
 document.getElementById("game2-submit-button").addEventListener("click", evaluateGuess);
 
-function initializeGame() {
+// ============================================================
+// Called by difficulty popup buttons
+// ============================================================
+function startGame2(selectedDifficulty) {
+    difficulty = selectedDifficulty;
+
+    // Set attempts based on difficulty
+    if (difficulty === "EASY") {
+        maxAttempts = 8;
+    } else if (difficulty === "MEDIUM") {
+        maxAttempts = 6;
+    } else { // HARD
+        maxAttempts = 4;
+    }
+
+    // Reset state
+    correctValues.length = 0;
+    attemptNum = 1;
+
+    // Hide end card if visible
+    document.getElementById('game2-end-card').style.display = 'none';
+    document.getElementById('blackBackground_forGameHouses').style.zIndex = '-1';
+
+    // Close difficulty popup
+    document.getElementById('difficulty-overlay').classList.remove('active');
+
+    // Rebuild attempt containers with new maxAttempts
     createAttemptObjects();
     assignOnClickEventToImg();
     generateOrderToGuess();
@@ -20,6 +47,7 @@ function initializeGame() {
 
 function createAttemptObjects(){
     const attemptContainer = document.getElementById("game2-attempt-container");
+    attemptContainer.innerHTML = ""; // Clear previous attempts
 
     for (let i = 1; i <= maxAttempts; i++){
         const attemptContent = document.createElement("div");
@@ -235,7 +263,7 @@ function endGame(win){
 
     document.getElementById('game2-end-card').style.display = 'flex';
     document.getElementById('game2-result').innerHTML = result;
-    document.getElementById('attempts-end-card').innerHTML = attemptNum;
+    document.getElementById('attempts-end-card').innerHTML = attemptNum - 1;
     document.getElementById('difficulty-end-card').innerHTML = difficulty;
 
     const fruitCorrectImg = document.createElement('img');
@@ -255,8 +283,9 @@ function endGame(win){
     document.getElementById("dessert-correct").appendChild(dessertCorrectImg);
     
     document.getElementById('blackBackground_forGameHouses').style.zIndex = '10';
+}
 
-
-    
-
+function playAgain() {
+    // Show difficulty popup again to let player choose
+    document.getElementById('difficulty-overlay').classList.add('active');
 }

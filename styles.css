@@ -1903,6 +1903,125 @@ footer p {
 
 
 
+/* ============================================
+   DIFFICULTY POPUP
+   ============================================ */
+#difficulty-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Comic Neue', cursive, sans-serif;
+}
+
+#difficulty-overlay.active {
+    display: flex;
+}
+
+#difficulty-modal {
+    background: linear-gradient(145deg, #8B3A3A, #5C1A1A);
+    border: 6px solid #A0522D;
+    border-radius: 20px;
+    padding: 2.5vw 3vw;
+    width: 35vw;
+    max-width: 500px;
+    text-align: center;
+    box-shadow:
+        0 0 20px rgba(0, 0, 0, 0.7),
+        inset 0 0 30px rgba(255, 200, 150, 0.1);
+    position: relative;
+}
+
+#difficulty-modal h2 {
+    color: #FFD700;
+    font-size: 2.2vw;
+    margin: 0 0 0.3vw 0;
+    text-shadow:
+        0 0 10px rgba(255, 215, 0, 0.5),
+        2px 2px 4px rgba(0, 0, 0, 0.8);
+    letter-spacing: 0.05em;
+}
+
+#difficulty-modal .subtitle {
+    color: #FFE0B2;
+    font-size: 1vw;
+    margin: 0 0 1.5vw 0;
+    opacity: 0.9;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+}
+
+.difficulty-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8vw;
+    margin-bottom: 1.5vw;
+}
+
+.difficulty-btn {
+    padding: 1vw 2vw;
+    border: 3px solid transparent;
+    border-radius: 12px;
+    font-size: 1.3vw;
+    font-weight: bold;
+    font-family: 'Comic Neue', cursive, sans-serif;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+    color: white;
+    letter-spacing: 0.05em;
+}
+
+.difficulty-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.6);
+}
+
+.difficulty-btn:active {
+    transform: scale(0.97);
+}
+
+.difficulty-btn.easy {
+    background: linear-gradient(145deg, #4CAF50, #2E7D32);
+    border-color: #81C784;
+}
+
+.difficulty-btn.easy:hover {
+    border-color: #FFD700;
+}
+
+.difficulty-btn.medium {
+    background: linear-gradient(145deg, #FF9800, #E65100);
+    border-color: #FFB74D;
+}
+
+.difficulty-btn.medium:hover {
+    border-color: #FFD700;
+}
+
+.difficulty-btn.hard {
+    background: linear-gradient(145deg, #F44336, #B71C1C);
+    border-color: #EF9A9A;
+}
+
+.difficulty-btn.hard:hover {
+    border-color: #FFD700;
+}
+
+.difficulty-btn .difficulty-desc {
+    display: block;
+    font-size: 0.7vw;
+    font-weight: normal;
+    opacity: 0.85;
+    margin-top: 0.3vw;
+}
+
 /* End Cards Below */
 
 

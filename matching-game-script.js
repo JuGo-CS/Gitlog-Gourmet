@@ -5,34 +5,74 @@ const maxFaceUpCard = 2;
 const basePoint = 50;
 const comboPointBonus = 10;
 
-let numRows = 10;
-let numCols = 10;
+let numRows = 6;
+let numCols = 6;
 let totalCards = numRows * numCols;
-
-let numVarieties = 10;
-
+let numVarieties = 6;
 let difficulty = "EASY";
 let score = 0;
 let numOfTilesFlipped = 0;
 let numMatchedTiles = 0;
 let secondsElapse = 0;
-
 let combo = 0;
-
+let gameInterval = null;
+let gameStarted = false;
 
 let resizeTimer;
 
-document.addEventListener("DOMContentLoaded", initializePage);
+document.addEventListener("DOMContentLoaded", function () {
+    // Don't auto-start — wait for difficulty choice
+});
 
 window.addEventListener("load", adjustTileMatrix);
 window.addEventListener("resize", adjustTileMatrix);
 
-function initializePage(){
-    generateRandomTileValues();
-    updateClock();
-    setInterval(updateClock, 1000);
+// ============================================================
+// Called by difficulty popup buttons
+// ============================================================
+function startGame1(selectedDifficulty) {
+    difficulty = selectedDifficulty;
 
+    // Set grid size based on difficulty
+    if (difficulty === "EASY") {
+        numRows = 6;
+        numCols = 6;
+        numVarieties = 6;
+    } else if (difficulty === "MEDIUM") {
+        numRows = 8;
+        numCols = 8;
+        numVarieties = 8;
+    } else { // HARD
+        numRows = 10;
+        numCols = 10;
+        numVarieties = 10;
+    }
+
+    totalCards = numRows * numCols;
+
+    // Reset all state
+    tileValues.length = 0;
+    isTileActive.length = 0;
+    score = 0;
+    numOfTilesFlipped = 0;
+    numMatchedTiles = 0;
+    secondsElapse = 0;
+    combo = 0;
+
+    // Hide end card if visible
+    document.getElementById('game1-end-card').style.display = 'none';
+    document.getElementById('blackBackground_forGameHouses').style.zIndex = '-1';
+
+    // Close difficulty popup
+    document.getElementById('difficulty-overlay').classList.remove('active');
+
+    // Start the game
+    generateRandomTileValues();
     refreshStats();
+
+    if (gameInterval) clearInterval(gameInterval);
+    gameInterval = setInterval(updateClock, 1000);
+    gameStarted = true;
 }
 
 function shuffleArray(array) {
@@ -194,13 +234,22 @@ function resetAllFaceUpTiles() {
 }
 
 function endGame(){
+    if (gameInterval) {
+        clearInterval(gameInterval);
+        gameInterval = null;
+    }
+
     document.getElementById('game1-end-card').style.display = 'flex';
     document.getElementById('tiles-flipped-end-card').innerHTML = numOfTilesFlipped;
     document.getElementById('elapsed-time-end-card').innerHTML = getTextFormTimeElapse();
     document.getElementById('score-end-card').innerHTML = score;
-    document.getElementById('difficulty-end-card').innerHTML = difficulty;y
+    document.getElementById('difficulty-end-card').innerHTML = difficulty;
     document.getElementById('blackBackground_forGameHouses').style.zIndex = '10';
+}
 
+function playAgain() {
+    // Show difficulty popup again to let player choose
+    document.getElementById('difficulty-overlay').classList.add('active');
 }
 
 function adjustTileMatrix() {

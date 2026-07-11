@@ -21,7 +21,7 @@
                     <a href="home.html" class="button-link">
                         <img src="assets/images/homeIcon.png" alt="Home Button">
                     </a>
-                    <a href="game1.html" class="button-link" onclick="playAgain()">
+                    <a href="#" class="button-link" onclick="event.preventDefault(); playAgain();">
                         <img src="assets/images/restartIcon.png" alt="Restart Button">
                     </a>
                     <a href="leaderboard.html" class="button-link">
@@ -120,6 +120,28 @@
         <!-- <div id="blackBackground"></div> -->
         <div id="whiteFadeIn_game"></div>
         <div id="blackBackground_forGameHouses"></div>
+    </div>
+
+    <!-- Difficulty Popup -->
+    <div id="difficulty-overlay" class="active">
+        <div id="difficulty-modal">
+            <h2>&#127922; Choose Difficulty</h2>
+            <p class="subtitle">Select your challenge level for Matching Pairs</p>
+            <div class="difficulty-options">
+                <button class="difficulty-btn easy" onclick="startGame1('EASY')">
+                    &#127793; Easy
+                    <span class="difficulty-desc">6 &times; 6 grid &mdash; 18 pairs</span>
+                </button>
+                <button class="difficulty-btn medium" onclick="startGame1('MEDIUM')">
+                    &#9889; Medium
+                    <span class="difficulty-desc">8 &times; 8 grid &mdash; 32 pairs</span>
+                </button>
+                <button class="difficulty-btn hard" onclick="startGame1('HARD')">
+                    &#128293; Hard
+                    <span class="difficulty-desc">10 &times; 10 grid &mdash; 50 pairs</span>
+                </button>
+            </div>
+        </div>
     </div>
 
     <!-- Username Modal -->
