@@ -11,23 +11,6 @@
         <div id="game-container">
 
             <header>
-                <!-- User badge -->
-                <div id="user-badge">
-                    <div class="badge-toggle">
-                        <div class="avatar">G</div>
-                        <span class="username-display" id="username-display-text">Guest</span>
-                        <span class="dropdown-arrow">&#9660;</span>
-                    </div>
-                    <div id="user-dropdown">
-                        <div class="dropdown-item" data-action="switch">
-                            <span class="item-icon">&#128100;</span> Switch Account
-                        </div>
-                        <div class="dropdown-item" data-action="logout">
-                            <span class="item-icon">&#128682;</span> Log Out
-                        </div>
-                    </div>
-                </div>
-
                 <img id="game-logo" src="assets/images/game-logo.png">
                 <img id="gitlog_text_logo" src="assets/images/Gitlog Horizontal.png">
 
@@ -54,7 +37,6 @@
                                 <tr>
                                     <th>RANK</th>
                                     <th>NAME</th>
-                                    <th>RATING</th>
                                     <th>SCORE</th>
                                 </tr>
                             </thead>
@@ -69,7 +51,6 @@
                                 <tr>
                                     <th>RANK</th>
                                     <th>NAME</th>
-                                    <th>RATING</th>
                                     <th>SCORE</th>
                                 </tr>
                             </thead>
@@ -108,22 +89,6 @@
         
 
     </div>
-    <!-- Username Modal -->
-    <div id="username-overlay">
-        <div id="username-modal">
-            <h2>&#127858; Welcome to Gitlog Gourmet!</h2>
-            <p class="subtitle">Enter your username to start playing</p>
-            <div class="input-group">
-                <input type="text" id="username-input" placeholder="Enter username..." maxlength="20" autocomplete="off">
-                <button class="btn-primary" onclick="handleUsernameSubmit()">Let's Go!</button>
-            </div>
-            <div class="error-msg" id="username-error"></div>
-            <div class="saved-accounts-title">&#128195; Saved Accounts</div>
-            <div id="saved-accounts-list"></div>
-        </div>
-    </div>
-
-    <script src="username-manager.js"></script>
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <script src="leaderboard-script.js"></script>
 </body>

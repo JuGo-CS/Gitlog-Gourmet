@@ -7,7 +7,14 @@ let attemptNum = 1;
 let difficulty = "EASY";
 
 document.addEventListener("DOMContentLoaded", function () {
-    // Don't auto-start — wait for difficulty choice
+    // Wait for the white sphere collapse animation to finish (2s),
+    // then show the difficulty popup with a fade-in
+    setTimeout(function () {
+        const overlay = document.getElementById('difficulty-overlay');
+        if (overlay) {
+            overlay.classList.add('active');
+        }
+    }, 1000);
 });
 
 document.getElementById("game2-reset-button").addEventListener("click", resetGuess);
