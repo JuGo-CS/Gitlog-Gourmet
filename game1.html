@@ -10,23 +10,35 @@
     <div id="aspect-ratio-wrapper">
         <div id="game-container">
             <div id="game1-end-card">
-                <h2>You Win!</h2>
-                <div class="end-card-stats">
-                    <p><strong>Tiles Flipped:</strong> <span id="tiles-flipped-end-card">0</span></p>
-                    <p><strong>Time Elapsed:</strong> <span id="elapsed-time-end-card">00:00</span></p>
-                    <p><strong>Score:</strong> <span id="score-end-card">0</span></p>
-                    <p><strong>Difficulty:</strong> <span id="difficulty-end-card">Easy</span></p>
-                </div>
-                <div class="end-card-buttons">
-                    <a href="home.html" class="button-link">
-                        <img src="assets/images/homeIcon.png" alt="Home Button">
-                    </a>
-                    <a href="#" class="button-link" onclick="event.preventDefault(); playAgain();">
-                        <img src="assets/images/restartIcon.png" alt="Restart Button">
-                    </a>
-                    <a href="leaderboard.html" class="button-link">
-                        <img src="assets/images/trophyIcon.png" alt="Trophy Button">
-                    </a>
+                <div class="end-card-content">
+                    <div class="end-card-header">
+                        <span class="end-card-icon">&#127942;</span>
+                        <h2>You Win!</h2>
+                    </div>
+                    <div class="end-card-stats">
+                        <div class="stat-row">
+                            <span class="stat-label">&#127922; Difficulty</span>
+                            <span class="stat-value" id="difficulty-end-card">Easy</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">&#128221; Tiles Flipped</span>
+                            <span class="stat-value" id="tiles-flipped-end-card">0</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">&#9200; Time</span>
+                            <span class="stat-value" id="elapsed-time-end-card">00:00</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">&#127775; Score</span>
+                            <span class="stat-value score-highlight" id="score-end-card">0</span>
+                        </div>
+                    </div>
+                    <div id="game1-rank-display" class="rank-display" style="display:none;"></div>
+                    <div class="end-card-buttons">
+                        <a href="home.html" class="button-link" title="Home">&#127968;</a>
+                        <a href="#" class="button-link" onclick="event.preventDefault(); playAgain();" title="Play Again">&#128260;</a>
+                        <a href="leaderboard.html" class="button-link" title="Leaderboard">&#127942;</a>
+                    </div>
                 </div>
             </div>
 

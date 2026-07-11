@@ -258,9 +258,31 @@ function endGame(){
     document.getElementById('difficulty-end-card').innerHTML = difficulty;
     document.getElementById('blackBackground_forGameHouses').style.zIndex = '10';
 
-    // Submit score to Supabase leaderboard
+    // Submit score to Supabase leaderboard (only on win — all tiles matched)
     const playerName = getPlayerName();
-    submitScoreGame1(playerName, score, difficulty);
+    if (score > 0) {
+        submitScoreGame1(playerName, score, difficulty).then(result => {
+            if (result && result.submitted) {
+                // Check rank after submission
+                getPlayerRank('leaderboard_game1', playerName).then(rank => {
+                    const rankEl = document.getElementById('game1-rank-display');
+                    if (rankEl && rank !== null) {
+                        if (rank <= 3) {
+                            rankEl.innerHTML = `&#127942; Rank #${rank} — Top 3!`;
+                            rankEl.style.color = '#FFD700';
+                        } else if (rank <= 10) {
+                            rankEl.innerHTML = `&#127775; Rank #${rank} — Top 10!`;
+                            rankEl.style.color = '#FFE0B2';
+                        } else {
+                            rankEl.innerHTML = `&#128200; Rank #${rank}`;
+                            rankEl.style.color = '#FFF';
+                        }
+                        rankEl.style.display = 'block';
+                    }
+                });
+            }
+        });
+    }
 }
 
 function playAgain() {
