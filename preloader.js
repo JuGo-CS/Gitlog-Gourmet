@@ -171,7 +171,7 @@
 
     async function startPreload() {
         // Load in batches to avoid overwhelming the browser
-        const batchSize = 10;
+        const batchSize = 20;
         for (let i = 0; i < total; i += batchSize) {
             const batch = assets.slice(i, i + batchSize);
             await Promise.all(batch.map(loadImage));
@@ -187,10 +187,6 @@
         updateProgress();
     }
 
-    // Start preloading when the page loads
-    if (document.readyState === "complete") {
-        startPreload();
-    } else {
-        window.addEventListener("load", startPreload);
-    }
+    // Start preloading immediately (don't wait for window.load)
+    startPreload();
 })();
