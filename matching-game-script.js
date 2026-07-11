@@ -257,6 +257,10 @@ function endGame(){
     document.getElementById('score-end-card').innerHTML = score;
     document.getElementById('difficulty-end-card').innerHTML = difficulty;
     document.getElementById('blackBackground_forGameHouses').style.zIndex = '10';
+
+    // Submit score to Supabase leaderboard
+    const playerName = getPlayerName();
+    submitScoreGame1(playerName, score, difficulty);
 }
 
 function playAgain() {

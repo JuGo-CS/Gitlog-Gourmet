@@ -1,18 +1,7 @@
 // ============================================================
-// SUPABASE CONFIGURATION
-// ============================================================
-// INSTRUCTIONS:
-//   1. Go to https://supabase.com -> Project Settings -> API
-//   2. Copy your "Project URL" and "anon public" key
-//   3. Paste them below
-// ============================================================
-const SUPABASE_URL = "https://jfvhcgloqrpjfdzuxusd.supabase.co";
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpmdmhjZ2xvcXJwamZkenV4dXNkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI3NzEyMDAsImV4cCI6MjA5ODM0NzIwMH0.YUem8NqBAySlw5tOKba_LoEvyatPw9mjr2PxO3HVFfY";
-
-const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-// ============================================================
 // LEADERBOARD LOGIC
+// Note: Supabase client is loaded from supabase-helper.js
+// ============================================================
 // ============================================================
 
 document.addEventListener("DOMContentLoaded", initializePage);

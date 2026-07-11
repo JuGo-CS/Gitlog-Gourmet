@@ -290,6 +290,20 @@ function endGame(win){
     document.getElementById("dessert-correct").appendChild(dessertCorrectImg);
     
     document.getElementById('blackBackground_forGameHouses').style.zIndex = '10';
+
+    // Calculate and submit score
+    const finalScore = calculateGame2Score(win, attemptNum - 1);
+    const playerName = getPlayerName();
+    submitScoreGame2(playerName, finalScore, difficulty);
+}
+
+function calculateGame2Score(win, attemptsUsed) {
+    if (!win) return 0;
+    // More points for fewer attempts, bonus for harder difficulty
+    const difficultyMultiplier = difficulty === "EASY" ? 1 : difficulty === "MEDIUM" ? 2 : 3;
+    const baseScore = 1000;
+    const attemptBonus = Math.max(0, (maxAttempts - attemptsUsed) * 150);
+    return (baseScore + attemptBonus) * difficultyMultiplier;
 }
 
 function playAgain() {
