@@ -2394,6 +2394,121 @@ footer p {
     margin-top: 0.3vw;
 }
 
+/* ============================================
+   PAUSE BUTTON & MODAL
+   ============================================ */
+#pause-btn {
+    position: absolute;
+    top: 1%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 20;
+    background: rgba(0, 0, 0, 0.5);
+    border: 2px solid rgba(255, 215, 0, 0.4);
+    border-radius: 50%;
+    width: 2.5vw;
+    height: 2.5vw;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #FFD700;
+    font-size: 1.2vw;
+    transition: background 0.2s, transform 0.2s, border-color 0.2s;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+}
+
+#pause-btn:hover {
+    background: rgba(0, 0, 0, 0.7);
+    border-color: #FFD700;
+    transform: translateX(-50%) scale(1.1);
+}
+
+#pause-btn.visible {
+    display: flex;
+}
+
+#pause-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Comic Neue', cursive, sans-serif;
+}
+
+#pause-overlay.active {
+    display: flex;
+    animation: pauseFadeIn 0.3s ease-out forwards;
+}
+
+@keyframes pauseFadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+#pause-modal {
+    background: linear-gradient(145deg, #8B3A3A, #5C1A1A);
+    border: 4px solid #FFD700;
+    border-radius: 20px;
+    padding: 2vw 3vw;
+    text-align: center;
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.2), 0 0 60px rgba(0, 0, 0, 0.5);
+    animation: pauseModalPop 0.3s ease-out forwards;
+}
+
+@keyframes pauseModalPop {
+    0% { transform: scale(0.8); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+#pause-modal h2 {
+    color: #FFD700;
+    font-size: 2.5vw;
+    margin: 0 0 1.5vw 0;
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+    letter-spacing: 0.05em;
+}
+
+#pause-modal .pause-buttons {
+    display: flex;
+    gap: 1.5vw;
+    justify-content: center;
+}
+
+#pause-modal .pause-btn {
+    padding: 0.8vw 2vw;
+    border: 2px solid transparent;
+    border-radius: 12px;
+    font-size: 1.2vw;
+    font-weight: bold;
+    font-family: 'Comic Neue', cursive, sans-serif;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    color: white;
+    min-width: 8vw;
+}
+
+#pause-modal .pause-btn:hover {
+    transform: scale(1.08);
+}
+
+#pause-modal .pause-btn.continue-btn {
+    background: linear-gradient(145deg, #4CAF50, #2E7D32);
+    border-color: #81C784;
+}
+
+#pause-modal .pause-btn.restart-btn {
+    background: linear-gradient(145deg, #FF9800, #E65100);
+    border-color: #FFB74D;
+}
+
 /* End Cards Below */
 
 

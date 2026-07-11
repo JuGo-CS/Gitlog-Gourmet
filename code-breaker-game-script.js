@@ -5,6 +5,7 @@ let maxAttempts = 8;
 const correctValues = [];
 let attemptNum = 1;
 let difficulty = "EASY";
+let isPaused = false;
 
 document.addEventListener("DOMContentLoaded", function () {
     // Wait for the white sphere collapse animation to finish (2s),
@@ -38,6 +39,7 @@ function startGame2(selectedDifficulty) {
     // Reset state
     correctValues.length = 0;
     attemptNum = 1;
+    isPaused = false;
 
     // Hide end card if visible
     document.getElementById('game2-end-card').style.display = 'none';
@@ -45,6 +47,9 @@ function startGame2(selectedDifficulty) {
 
     // Close difficulty popup
     document.getElementById('difficulty-overlay').classList.remove('active');
+
+    // Show pause button
+    document.getElementById('pause-btn').classList.add('visible');
 
     // Rebuild attempt containers with new maxAttempts
     createAttemptObjects();
@@ -292,6 +297,10 @@ function endGame(win){
     
     document.getElementById('blackBackground_forGameHouses').style.zIndex = '10';
 
+    // Hide pause button
+    document.getElementById('pause-btn').classList.remove('visible');
+    document.getElementById('pause-overlay').classList.remove('active');
+
     // Calculate and submit score (only on win)
     if (win) {
         const finalScore = calculateGame2Score(win, attemptNum - 1);
@@ -331,5 +340,28 @@ function calculateGame2Score(win, attemptsUsed) {
 
 function playAgain() {
     // Show difficulty popup again to let player choose
+    document.getElementById('pause-btn').classList.remove('visible');
     document.getElementById('difficulty-overlay').classList.add('active');
+}
+
+// ============================================================
+// PAUSE / RESUME / RESTART
+// ============================================================
+function togglePause() {
+    const overlay = document.getElementById('pause-overlay');
+    if (!overlay) return;
+
+    if (overlay.classList.contains('active')) {
+        overlay.classList.remove('active');
+        isPaused = false;
+    } else {
+        overlay.classList.add('active');
+        isPaused = true;
+    }
+}
+
+function pauseRestart() {
+    document.getElementById('pause-overlay').classList.remove('active');
+    isPaused = false;
+    playAgain();
 }

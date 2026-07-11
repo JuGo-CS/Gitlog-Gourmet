@@ -17,6 +17,7 @@ let secondsElapse = 0;
 let combo = 0;
 let gameInterval = null;
 let gameStarted = false;
+let isPaused = false;
 
 let resizeTimer;
 
@@ -65,6 +66,7 @@ function startGame1(selectedDifficulty) {
     numMatchedTiles = 0;
     secondsElapse = 0;
     combo = 0;
+    isPaused = false;
 
     // Hide end card if visible
     document.getElementById('game1-end-card').style.display = 'none';
@@ -72,6 +74,15 @@ function startGame1(selectedDifficulty) {
 
     // Close difficulty popup
     document.getElementById('difficulty-overlay').classList.remove('active');
+
+    // Show pause button
+    document.getElementById('pause-btn').classList.add('visible');
+
+    // Start the hourglass GIF
+    const hourglass = document.getElementById('timerGlassHour');
+    if (hourglass) {
+        hourglass.src = 'assets/images/hourglassGif.gif';
+    }
 
     // Start the game
     generateRandomTileValues();
@@ -251,6 +262,15 @@ function endGame(){
         gameInterval = null;
     }
 
+    document.getElementById('pause-btn').classList.remove('visible');
+    document.getElementById('pause-overlay').classList.remove('active');
+
+    // Stop hourglass GIF
+    const hourglass = document.getElementById('timerGlassHour');
+    if (hourglass) {
+        hourglass.src = 'assets/images/hourglass.png';
+    }
+
     document.getElementById('game1-end-card').style.display = 'flex';
     document.getElementById('tiles-flipped-end-card').innerHTML = numOfTilesFlipped;
     document.getElementById('elapsed-time-end-card').innerHTML = getTextFormTimeElapse();
@@ -287,7 +307,39 @@ function endGame(){
 
 function playAgain() {
     // Show difficulty popup again to let player choose
+    document.getElementById('pause-btn').classList.remove('visible');
     document.getElementById('difficulty-overlay').classList.add('active');
+}
+
+// ============================================================
+// PAUSE / RESUME / RESTART
+// ============================================================
+function togglePause() {
+    const overlay = document.getElementById('pause-overlay');
+    if (!overlay || !gameStarted) return;
+
+    if (overlay.classList.contains('active')) {
+        // Resume
+        overlay.classList.remove('active');
+        isPaused = false;
+        if (gameInterval === null && numMatchedTiles < totalCards) {
+            gameInterval = setInterval(updateClock, 1000);
+        }
+    } else {
+        // Pause
+        overlay.classList.add('active');
+        isPaused = true;
+        if (gameInterval) {
+            clearInterval(gameInterval);
+            gameInterval = null;
+        }
+    }
+}
+
+function pauseRestart() {
+    document.getElementById('pause-overlay').classList.remove('active');
+    isPaused = false;
+    playAgain();
 }
 
 function adjustTileMatrix() {
