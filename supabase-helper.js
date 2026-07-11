@@ -14,6 +14,36 @@ const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // ============================================================
+// CHECK IF USERNAME EXISTS IN DATABASE
+// Checks both leaderboard tables for the given username.
+// ============================================================
+async function checkUsernameExistsInDB(username) {
+    if (!username) return false;
+    try {
+        const { data: data1, error: error1 } = await supabaseClient
+            .from('leaderboard_game1')
+            .select('player_name')
+            .ilike('player_name', username)
+            .maybeSingle();
+
+        if (data1) return true;
+
+        const { data: data2, error: error2 } = await supabaseClient
+            .from('leaderboard_game2')
+            .select('player_name')
+            .ilike('player_name', username)
+            .maybeSingle();
+
+        if (data2) return true;
+
+        return false;
+    } catch (error) {
+        console.error("Error checking username in DB:", error);
+        return false; // Fail open — allow if DB check fails
+    }
+}
+
+// ============================================================
 // GET CURRENT PLAYER NAME
 // ============================================================
 function getPlayerName() {
