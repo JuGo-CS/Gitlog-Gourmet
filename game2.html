@@ -10,31 +10,21 @@
     <div id="aspect-ratio-wrapper">
         <div id="game-container">
             <div id="game2-end-card">
-                <div class="end-card-content">
-                    <div class="end-card-header">
-                        <span class="end-card-icon">&#127942;</span>
-                        <h2 id="game2-result">You Win!</h2>
-                    </div>
-                    <div class="end-card-stats">
-                        <div class="stat-row">
-                            <span class="stat-label">&#127922; Difficulty</span>
-                            <span class="stat-value" id="difficulty-end-card">Easy</span>
-                        </div>
-                        <div class="stat-row">
-                            <span class="stat-label">&#128221; Attempts</span>
-                            <span class="stat-value" id="attempts-end-card">0</span>
-                        </div>
-                        <div class="stat-row">
-                            <span class="stat-label">&#127775; Score</span>
-                            <span class="stat-value score-highlight" id="score-end-card">0</span>
-                        </div>
-                    </div>
-                    <div id="game2-rank-display" class="rank-display" style="display:none;"></div>
-                    <div class="end-card-buttons">
-                        <a href="home.html" class="button-link" title="Home">&#127968;</a>
-                        <a href="#" class="button-link" onclick="event.preventDefault(); playAgain();" title="Play Again">&#128260;</a>
-                        <a href="leaderboard.html" class="button-link" title="Leaderboard">&#127942;</a>
-                    </div>
+                <h2 id="game2-result">You Win!</h2>
+                <div class="end-card-stats">
+                    <p><strong># of Attempts:</strong> <span id="attempts-end-card">0</span></p>
+                    <p><strong>Difficulty:</strong> <span id="difficulty-end-card">Easy</span></p>
+                </div>
+                <div class="end-card-buttons">
+                    <a href="index.html" class="button-link">
+                        <img src="assets/images/homeIcon.png" alt="Home Button">
+                    </a>
+                    <a href="#" class="button-link" onclick="event.preventDefault(); playAgain();">
+                        <img src="assets/images/restartIcon.png" alt="Restart Button">
+                    </a>
+                    <a href="leaderboard.html" class="button-link">
+                        <img src="assets/images/trophyIcon.png" alt="Trophy Button">
+                    </a>
                 </div>
             </div>
 
@@ -43,7 +33,7 @@
                 <img id="gitlog_text_logo" src="assets/images/Gitlog Horizontal.png">
 
                 <nav>
-                    <a href="home.html">
+                    <a href="index.html">
                         <img id="arrow_goHome" src="assets/images/arrow_firstStyle.png" alt="Home">
                     </a>
                     <!-- <a href="leaderboard.html">
