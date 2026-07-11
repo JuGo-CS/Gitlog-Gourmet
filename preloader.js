@@ -131,9 +131,13 @@
     let loadedCount = 0;
     const total = assets.length;
 
-    function updateProgress() {
-        loadedCount++;
-        const pct = Math.round((loadedCount / total) * 100);
+    function updateProgress(final) {
+        if (final) {
+            loadedCount = total;
+        } else {
+            loadedCount++;
+        }
+        const pct = Math.min(Math.round((loadedCount / total) * 100), 100);
         if (barFill) barFill.style.width = pct + "%";
         if (percentText) percentText.textContent = pct + "%";
 
@@ -183,8 +187,7 @@
         }
 
         // Final update
-        loadedCount = total;
-        updateProgress();
+        updateProgress(true);
     }
 
     // Start preloading immediately (don't wait for window.load)
