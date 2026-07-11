@@ -3,6 +3,140 @@
 }  */
 
 /* ============================================
+   UNSUPPORTED SCREEN SIZE OVERLAY
+   ============================================ */
+#unsupported-screen {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(145deg, #3E1F1F, #1A0A0A);
+    z-index: 99999;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    flex-direction: column;
+    text-align: center;
+    padding: 5vw;
+    box-sizing: border-box;
+}
+
+#unsupported-screen .us-icon {
+    font-size: 8vw;
+    margin-bottom: 1.5vw;
+    filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.3));
+    animation: usPulse 2s ease-in-out infinite;
+}
+
+@keyframes usPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+#unsupported-screen h1 {
+    color: #FFD700;
+    font-size: 3.5vw;
+    margin: 0 0 1vw 0;
+    text-shadow:
+        0 0 20px rgba(255, 215, 0, 0.4),
+        2px 2px 4px rgba(0, 0, 0, 0.8);
+    letter-spacing: 0.05em;
+}
+
+#unsupported-screen .us-subtitle {
+    color: #FFE0B2;
+    font-size: 1.5vw;
+    margin: 0 0 2vw 0;
+    opacity: 0.9;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+    max-width: 40vw;
+    line-height: 1.6;
+}
+
+#unsupported-screen .us-divider {
+    width: 30%;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #A0522D, transparent);
+    border: none;
+    margin: 1vw 0;
+}
+
+#unsupported-screen .us-footer {
+    color: rgba(255, 224, 178, 0.5);
+    font-size: 1vw;
+    margin-top: 2vw;
+    letter-spacing: 0.1em;
+}
+
+#unsupported-screen .us-footer span {
+    color: #FFD700;
+    opacity: 0.7;
+}
+
+/* ============================================
+   RESPONSIVE: Small screens (phones, <768px)
+   ============================================ */
+@media (max-width: 768px) {
+    /* Hide all game content */
+    #aspect-ratio-wrapper,
+    #game-container,
+    header,
+    main,
+    footer,
+    .background,
+    #blackBackground,
+    #whiteFadeIn,
+    #whiteFadeIn_game,
+    #blackBackground_forGameHouses,
+    #user-badge,
+    #user-dropdown,
+    #username-overlay,
+    #difficulty-overlay {
+        display: none !important;
+    }
+
+    /* Reset body to dark gradient */
+    body, html {
+        background: linear-gradient(145deg, #3E1F1F, #1A0A0A) !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        height: 100% !important;
+        width: 100% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+    /* Show unsupported screen */
+    #unsupported-screen {
+        display: flex !important;
+    }
+
+    /* Responsive font sizes for small screens */
+    #unsupported-screen .us-icon {
+        font-size: 60px;
+        margin-bottom: 15px;
+    }
+
+    #unsupported-screen h1 {
+        font-size: 28px;
+        margin-bottom: 10px;
+    }
+
+    #unsupported-screen .us-subtitle {
+        font-size: 16px;
+        max-width: 85vw;
+        margin-bottom: 20px;
+    }
+
+    #unsupported-screen .us-footer {
+        font-size: 12px;
+    }
+}
+
+/* ============================================
    USERNAME MODAL
    ============================================ */
 #username-overlay {
