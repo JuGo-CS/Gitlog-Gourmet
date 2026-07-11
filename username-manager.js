@@ -228,9 +228,10 @@ function logoutUser() {
 // ============================================================
 // HANDLE FORM SUBMISSION
 // ============================================================
-function handleUsernameSubmit() {
+async function handleUsernameSubmit() {
     const input = document.getElementById("username-input");
     const error = document.getElementById("username-error");
+    const submitBtn = document.querySelector("#username-modal .btn-primary");
     if (!input || !error) return;
 
     const name = input.value.trim();
@@ -241,15 +242,34 @@ function handleUsernameSubmit() {
         return;
     }
 
-    // Check if already exists
+    // Check if already exists in localStorage
     const usernames = getSavedUsernames();
-    const exists = usernames.some(u => u.toLowerCase() === name.toLowerCase());
+    const localExists = usernames.some(u => u.toLowerCase() === name.toLowerCase());
 
-    if (exists) {
+    if (localExists) {
         // Just switch to it
         switchToUsername(name);
         input.value = "";
         return;
+    }
+
+    // Check if username exists in the database (across all devices)
+    try {
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Checking...";
+        error.textContent = "";
+
+        const existsInDB = await checkUsernameExistsInDB(name);
+
+        if (existsInDB) {
+            error.textContent = 'This username is already taken! Please choose another one.';
+            submitBtn.disabled = false;
+            submitBtn.textContent = "Let's Go!";
+            return;
+        }
+    } catch (dbError) {
+        console.error("DB check failed, proceeding:", dbError);
+        // Fail open — allow if DB is unreachable
     }
 
     // Add new and switch
@@ -257,6 +277,8 @@ function handleUsernameSubmit() {
     setActiveUsername(name);
     updateUserBadge(name);
     input.value = "";
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Let's Go!";
     closeUsernameModal();
 }
 

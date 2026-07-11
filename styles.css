@@ -177,7 +177,7 @@
 }
 
 #username-modal .error-msg {
-    color: #FF6B6B;
+    color: #FFD700;
     font-size: 0.9vw;
     margin: 0.3vw 0;
     min-height: 1.2vw;
@@ -2124,100 +2124,171 @@ footer p {
 
 
 
+/* ============================================
+   END CARDS — Gaming Style
+   ============================================ */
 #game1-end-card, #game2-end-card {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: rgb(216, 62, 62);
-    width: 30%;
-    height: 40%;
-
+    width: 32vw;
+    max-width: 420px;
     display: none;
-    justify-content:baseline;
-    align-items: center;
-    flex-direction: column;
-    font-family:'Comic Neue', cursive;
-    font-size: 1vh;
-
-    box-shadow: 0 0 1px 3px #FFF, 0 0 1px 5px #FFE0B2, 0 0 3px 7px #FFAB91, 0 0 5px 10px #FF6F61;
-    text-shadow: black 1px 1px 2px, white 0 0 5px, black 0 0 10px, white 0 0 13px, black 0 0 15px;
-
-    
-    border-radius: 10%;
-    border: brown 10px solid;
-    color: white;
-    text-transform: uppercase;
-
-    
     z-index: 1000;
+    font-family: 'Comic Neue', cursive, sans-serif;
+    animation: endCardPopIn 0.4s ease-out forwards;
+}
 
-    h2 {
-        font-size: 5em;
-        position: absolute;
-        top: 5%;
-    } 
-
-    .end-card-stats {
-        font-size: 2em;
+@keyframes endCardPopIn {
+    0% {
+        transform: translate(-50%, -50%) scale(0.5);
+        opacity: 0;
     }
-
-    p {
-       letter-spacing: 2px;
+    70% {
+        transform: translate(-50%, -50%) scale(1.05);
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
     }
 }
 
-    .end-card-stats {
-        text-align: left;
-        position: absolute;
-        top: 35%;
+.end-card-content {
+    background: linear-gradient(145deg, #8B3A3A, #5C1A1A);
+    border: 4px solid #FFD700;
+    border-radius: 20px;
+    padding: 1.5vw 2vw;
+    box-shadow:
+        0 0 30px rgba(255, 215, 0, 0.3),
+        0 0 60px rgba(0, 0, 0, 0.5),
+        inset 0 0 40px rgba(255, 200, 150, 0.1);
+    position: relative;
+    overflow: hidden;
+}
 
-    }
+.end-card-content::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,215,0,0.05) 0%, transparent 60%);
+    pointer-events: none;
+}
 
-    .end-card-stats p {
-        margin: 6px 0;
-    }
+.end-card-header {
+    text-align: center;
+    margin-bottom: 0.8vw;
+}
 
-    .end-card-buttons {
-        width: 60%;
+.end-card-header .end-card-icon {
+    font-size: 3vw;
+    display: block;
+    margin-bottom: 0.2vw;
+    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
+}
 
-        display: flex;
-        position: absolute;
-        top: 75%;
-        flex-direction: row;
-        justify-content: space-evenly;
+.end-card-header h2 {
+    font-size: 2.2vw;
+    color: #FFD700;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    text-shadow:
+        0 0 20px rgba(255, 215, 0, 0.4),
+        2px 2px 4px rgba(0, 0, 0, 0.8);
+}
 
-        img {
-            height: 100%;
-        }
-    }
+.end-card-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4vw;
+    margin-bottom: 0.8vw;
+}
 
-        .button-link {
-            display: flex;
-            justify-content: center;
-            align-items: center;
+.stat-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.3vw 1vw;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 215, 0, 0.15);
+}
 
-            aspect-ratio: 1 / 1;
-            width: 20%;
-            border-radius: 100%;
-            background-color: #ffffff;
-            color: white;
-            text-decoration: none;
-            transition: ease-in-out background-color 0.3s, transform 0.3s ;
-        }
+.stat-label {
+    font-size: 0.9vw;
+    color: #FFE0B2;
+    letter-spacing: 0.05em;
+}
 
-            .button-link img {
-                width: 100%;
-                height: 80%;
-                /* background-color: #000000; */
-                border-radius: 100%;
-            }
+.stat-value {
+    font-size: 1vw;
+    font-weight: bold;
+    color: #FFFFFF;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
 
-            .button-link:hover {
-                background-color: rgb(136, 26, 26);
-                transform: scale(1.3);
+.score-highlight {
+    color: #FFD700;
+    font-size: 1.3vw;
+    text-shadow:
+        0 0 10px rgba(255, 215, 0, 0.4),
+        1px 1px 2px rgba(0, 0, 0, 0.5);
+}
 
-            }
+/* Rank display */
+.rank-display {
+    text-align: center;
+    font-size: 1vw;
+    font-weight: bold;
+    padding: 0.4vw;
+    margin-bottom: 0.6vw;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    letter-spacing: 0.05em;
+}
+
+/* Buttons */
+.end-card-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1vw;
+}
+
+.button-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 3.5vw;
+    height: 3.5vw;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #FFD700, #FF8C00);
+    color: #3E1F1F;
+    font-size: 1.6vw;
+    text-decoration: none;
+    box-shadow:
+        0 3px 10px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.button-link:hover {
+    transform: scale(1.2);
+    box-shadow:
+        0 5px 20px rgba(255, 215, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    background: linear-gradient(145deg, #FFE44D, #FF8C00);
+}
+
+.button-link:active {
+    transform: scale(0.95);
+}
 
 
 
