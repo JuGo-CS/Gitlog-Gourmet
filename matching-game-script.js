@@ -70,6 +70,9 @@ function startGame1(selectedDifficulty) {
     generateRandomTileValues();
     refreshStats();
 
+    // Adjust tile sizes after a short delay to let DOM settle
+    setTimeout(adjustTileMatrix, 50);
+
     if (gameInterval) clearInterval(gameInterval);
     gameInterval = setInterval(updateClock, 1000);
     gameStarted = true;
@@ -95,13 +98,12 @@ function generateRandomTileValues() {
 
     shuffleArray(tileValues);
 
-    const boolBuffer = [];
-    for (let i = 0; i < numCols; i++) {
-        boolBuffer.push(true);
-    }
-
-    for (let i = 0; i < numRows; i++) {
-        isTileActive.push(boolBuffer);
+    // Build a fresh 2D active grid — each row gets its OWN array
+    for (let r = 0; r < numRows; r++) {
+        isTileActive[r] = [];
+        for (let c = 0; c < numCols; c++) {
+            isTileActive[r][c] = true;
+        }
     }
 
     generateTileMatrix();
@@ -194,15 +196,18 @@ function manageFlipEvent() {
     if (flippedTiles.length !== 2) return;
 
     const [tile1, tile2] = flippedTiles;
-    const tile1Id = tile1.id;
-    const tile2Id = tile2.id;
-
-    console.log(tile1Id, tile2Id);
+    const tile1Id = parseInt(tile1.id);
+    const tile2Id = parseInt(tile2.id);
 
     if (tileValues[tile1Id] === tileValues[tile2Id]) {
-        // Match
-        isTileActive[tile1Id] = false;
-        isTileActive[tile2Id] = false;
+        // Match — convert flat index to row/col
+        const r1 = Math.floor(tile1Id / numCols);
+        const c1 = tile1Id % numCols;
+        const r2 = Math.floor(tile2Id / numCols);
+        const c2 = tile2Id % numCols;
+
+        isTileActive[r1][c1] = false;
+        isTileActive[r2][c2] = false;
 
         tile1.style.visibility = 'hidden';
         tile2.style.visibility = 'hidden';

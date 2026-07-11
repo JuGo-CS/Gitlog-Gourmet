@@ -21,9 +21,9 @@ function startGame2(selectedDifficulty) {
 
     // Set attempts based on difficulty
     if (difficulty === "EASY") {
-        maxAttempts = 8;
-    } else if (difficulty === "MEDIUM") {
         maxAttempts = 6;
+    } else if (difficulty === "MEDIUM") {
+        maxAttempts = 5;
     } else { // HARD
         maxAttempts = 4;
     }
