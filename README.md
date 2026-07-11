@@ -2,7 +2,7 @@
 
 > A food-themed web game portal inspired by **Purble Place**.
 > Built for **CMSC 126 — Web Programming**.
-> *Not a commercial product — just a passion project by students.*
+> *Not a commercial product — just a passion school project by students.*
 
 ---
 
@@ -25,10 +25,10 @@
 
 | Name | Role |
 |------|------|
-| **Kenneth Moondejar** | Developer |
+| **Kenneth Mondejar** | Developer |
 | **Kent Genilo** | Developer |
-| **Jasmine Magadan** | Developer |
 | **Mark Leonel Misola** | Developer |
+| **Jasmine Magadan** | Developer |
 
 **Course:** CMSC 126 — Web Programming  
 **Instructor:** Sir Nikko Gabriel Hismana
@@ -44,7 +44,7 @@
 | JavaScript (Vanilla) | Game logic & API calls |
 | Supabase | Cloud database for leaderboards |
 | localStorage | Username persistence |
-| GitHub Pages | Hosting |
+| Vercel | Hosting |
 
 ---
 
