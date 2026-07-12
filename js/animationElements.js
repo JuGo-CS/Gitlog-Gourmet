@@ -1,22 +1,13 @@
-// Initialize audio on first user interaction
-let audioInitialized = false;
-function initAudio() {
-    if (audioInitialized) return;
-    audioInitialized = true;
-    AudioManager.init();
+// Audio is auto-initialized by audio-manager.js on first interaction
+// Start homepage BGM on first click
+document.addEventListener('click', function startHomepageBGM() {
     AudioManager.playBGM('homepage');
-}
-
-// Listen for first click/touch to init audio (autoplay policy)
-document.addEventListener('click', initAudio, { once: true });
-document.addEventListener('touchstart', initAudio, { once: true });
+    document.removeEventListener('click', startHomepageBGM);
+}, { once: true });
 
 document.querySelectorAll('.game-link').forEach(link => {
   link.addEventListener('click', function (e) {
     e.preventDefault(); 
-
-    // Ensure audio is initialized
-    if (!audioInitialized) initAudio();
 
     // Play transition SFX
     AudioManager.playTransition();

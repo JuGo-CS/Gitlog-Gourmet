@@ -14,15 +14,20 @@ const AudioManager = {
         current: null,
         currentName: null
     },
+    _initialized: false,
+    _pendingQueue: [],
 
     // Preload all audio files
     init() {
+        if (this._initialized) return;
+        this._initialized = true;
+
         // BGM
         this.bgm.homepage = this._createAudio('assets/music/homepage_leaderboards_bgm.mp3', true);
         this.bgm.game1 = this._createAudio('assets/music/game1_bgm.MP3', true);
         this.bgm.game2 = this._createAudio('assets/music/game2_bgm.MP3', true);
 
-        // SFX — preload by creating and immediately pausing
+        // SFX
         this._preloadSFX('transition', 'assets/music/transition_between_pages_sfx.MP3');
         this._preloadSFX('buttonPress', 'assets/music/button_press_sfx.MP3');
         this._preloadSFX('correct', 'assets/music/correct_sfx.MP3');
@@ -32,6 +37,20 @@ const AudioManager = {
         this._preloadSFX('loss', 'assets/music/loss_sfx.MP3');
         this._preloadSFX('game1Intro', 'assets/music/game1_intro_sfx.MP3');
         this._preloadSFX('game2Intro', 'assets/music/game2_intro_sfx.MP3');
+
+        // Process any queued commands
+        while (this._pendingQueue.length) {
+            const cmd = this._pendingQueue.shift();
+            this[cmd.method](...cmd.args);
+        }
+    },
+
+    _ensureInit(method, args) {
+        if (!this._initialized) {
+            this._pendingQueue.push({ method, args });
+            return false;
+        }
+        return true;
     },
 
     _createAudio(src, loop) {
@@ -54,6 +73,7 @@ const AudioManager = {
     // BGM Control
     // ============================================================
     playBGM(name) {
+        if (!this._ensureInit('playBGM', [name])) return;
         // Don't restart if already playing
         if (this.bgm.currentName === name && this.bgm.current && !this.bgm.current.paused) return;
 
@@ -77,6 +97,7 @@ const AudioManager = {
     },
 
     stopBGM() {
+        if (!this._ensureInit('stopBGM', [])) return;
         if (this.bgm.current) {
             this.bgm.current.pause();
             this.bgm.current.currentTime = 0;
@@ -101,6 +122,7 @@ const AudioManager = {
     // SFX Control
     // ============================================================
     playSFX(name) {
+        if (!this._ensureInit('playSFX', [name])) return;
         if (!this._sfxCache || !this._sfxCache[name]) return;
         // Clone to allow overlapping sounds
         const clone = this._sfxCache[name].cloneNode();
@@ -143,3 +165,15 @@ const AudioManager = {
         this.playSFX('transition');
     }
 };
+
+// ============================================================
+// AUTO-INIT on first user interaction (handles autoplay policy)
+// ============================================================
+(function() {
+    function tryInit() {
+        AudioManager.init();
+    }
+    document.addEventListener('click', tryInit, { once: true });
+    document.addEventListener('touchstart', tryInit, { once: true });
+    document.addEventListener('keydown', tryInit, { once: true });
+})();
