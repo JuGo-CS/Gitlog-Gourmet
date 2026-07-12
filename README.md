@@ -122,11 +122,11 @@ Navigation uses a smooth white-sphere transition animation between pages.
 
 ## 🕹️ How to Play
 
-1. Open `index.html`
-2. Enter a username
-3. Click a game house
-4. Pick a difficulty
-5. Play and try to top the leaderboard!
+1. **Visit the game** → [gitlog-gourmet.vercel.app](https://gitlog-gourmet.vercel.app/) 🚀
+2. **Enter a username** — Create or select a saved account
+3. **Click a game house** — Choose Matching Pairs or Code Breaker
+4. **Pick a difficulty** — Easy, Medium, or Hard
+5. **Play!** — Try to top the leaderboard! 🏆
 
 ---
 
@@ -138,15 +138,19 @@ Navigation uses a smooth white-sphere transition animation between pages.
 ├── game1.html                  # Matching Pairs
 ├── game2.html                  # Code Breaker
 ├── leaderboard.html            # Leaderboard
-├── styles.css                  # Stylesheet
-├── animationElements.js        # Page transitions
-├── matching-game-script.js     # Game 1 logic
-├── code-breaker-game-script.js # Game 2 logic
-├── leaderboard-script.js       # Leaderboard fetching
-├── username-manager.js         # Username system
-├── supabase-helper.js          # Supabase client
-├── universal-style-script.js   # Responsive scaling
-├── README.md                   # This file
+│
+├── css/
+│   └── styles.css              # Stylesheet
+│
+├── js/
+│   ├── animationElements.js    # Page transitions
+│   ├── matching-game-script.js # Game 1 logic
+│   ├── code-breaker-game-script.js # Game 2 logic
+│   ├── leaderboard-script.js   # Leaderboard fetching
+│   ├── username-manager.js     # Username system
+│   ├── supabase-helper.js      # Supabase client
+│   ├── preloader.js            # Asset preloader
+│   └── universal-style-script.js # Responsive scaling
 │
 └── assets/
     ├── images/                 # UI elements & backgrounds
