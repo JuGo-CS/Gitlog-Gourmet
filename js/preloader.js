@@ -129,6 +129,27 @@
     const statusText = document.querySelector(".pl-status");
     const startBtn = document.getElementById("pl-start-btn");
 
+    if (sessionStorage.getItem("gitlog_preloaded") === "true") {
+        if (preloader && preloader.parentNode) {
+            preloader.parentNode.removeChild(preloader);
+        }
+
+        if (typeof AudioManager !== "undefined") {
+            AudioManager.playBGM('homepage');
+            if (AudioManager.bgm.current) {
+                AudioManager.bgm.current.muted = true;
+            }
+
+            document.addEventListener('click', function unmuteOnReturn() {
+                if (AudioManager.bgm.current) {
+                    AudioManager.bgm.current.muted = false;
+                }
+                document.removeEventListener('click', unmuteOnReturn);
+            }, { once: true });
+        }
+        return;
+    }
+
     let loadedCount = 0;
     const total = assets.length;
 
@@ -191,16 +212,13 @@
     startPreload();
 
     // "Let's Go!" button click handler — starts BGM and hides preloader
-    if (startBtn) {
+     if (startBtn) {
         startBtn.addEventListener("click", function letsGo() {
-            // Start homepage BGM (this click is the user gesture browsers require)
             AudioManager.playBGM('homepage');
-            // Skip ahead to avoid long silence at start of file
             if (AudioManager.bgm.homepage) {
                 AudioManager.bgm.homepage.currentTime = 0;
             }
 
-            // Hide preloader with fade-out
             preloader.classList.add("hidden");
             setTimeout(function () {
                 if (preloader && preloader.parentNode) {

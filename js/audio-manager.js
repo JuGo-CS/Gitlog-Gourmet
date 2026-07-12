@@ -96,9 +96,24 @@ const AudioManager = {
 
         if (track) {
             track.currentTime = 0;
-            track.play().catch(() => {}); // Ignore autoplay errors
+            track.muted = false;
             this.bgm.current = track;
             this.bgm.currentName = name;
+
+            const playPromise = track.play();
+
+            if (playPromise !== undefined) {
+                playPromise.catch(() => {
+                    track.muted = true;
+                    track.play().catch(() => {});
+
+                    const unmuteOnInteract = () => {
+                        track.muted = false;
+                        document.removeEventListener('click', unmuteOnInteract);
+                    };
+                    document.addEventListener('click', unmuteOnInteract, { once: true });
+                });
+            }
         }
     },
 
