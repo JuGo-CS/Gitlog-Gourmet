@@ -13,7 +13,7 @@
     // ============================================================
     const assets = [
         // --- Backgrounds ---
-        "assets/images/home-screen-background-curtain.png",
+        "assets/images/home-screen-background-curtain.png", 
         "assets/images/game-screen-background-darker.png",
         "assets/images/game2-screen-background_darker.png",
         "assets/images/leaderboard-bg.png",

@@ -626,21 +626,21 @@ body, html {
 
 
 .home-page #aspect-ratio-wrapper {
-    background-image: url("assets/images/home-screen-background-curtain.png");
+    background-image: url("../assets/images/home-screen-background-curtain.png");
 
 }
 
 .game1-page #aspect-ratio-wrapper {
     /* background-image: url("assets/images/game-screen-background.jpg"); */
-    background-image: url("assets/images/game-screen-background-darker.png");
+    background-image: url("../assets/images/game-screen-background-darker.png");
 }
 
 .game2-page #aspect-ratio-wrapper {
-    background-image: url("assets/images/game2-screen-background_darker.png");
+    background-image: url("../assets/images/game2-screen-background_darker.png");
 }
 
 .leaderboard-page #aspect-ratio-wrapper {
-    background-image: url("assets/images/leaderboard-bg.png");
+    background-image: url("../assets/images/leaderboard-bg.png");
 
 }
 
@@ -1073,7 +1073,7 @@ main {
                 /* text-align: center; */
 
     
-                background-image: url("assets/images/Matching Game Tutorial.png");
+                background-image: url("../assets/images/Matching Game Tutorial.png");
                 background-size: contain;      
                 background-position: center;   
                 background-repeat: no-repeat;
@@ -1174,7 +1174,7 @@ main {
 
                     /* box-shadow: 0 0 1px 1px #FFF, 0 0 1px 2px #FFE0B2, 0 0 3px 3px #FFAB91, 0 0 5px 5px #FF6F61; */
                     border: 5px hsl(0, 74%, 24%) solid;
-                    background-image: url("assets/images/Updated Instructions.png");
+                    background-image: url("../assets/images/Updated Instructions.png");
                     background-size: contain;      
                     background-position: center;   
                     background-repeat: no-repeat;
@@ -1447,7 +1447,7 @@ main {
 
 
             #game2-attempt-container > div{
-                background-image: url("assets/images/Takeout box closed.png");
+                background-image: url("../assets/images/Takeout box closed.png");
                 background-size: cover;        
                 background-position: center;   
                 background-repeat: no-repeat;
@@ -2147,7 +2147,7 @@ footer p {
 
 #home_leaderboard_transition {
     background-color: rgb(255, 255, 255);
-    background-image: url("assets/images/game2-screen-background_darker.jpg");
+    background-image: url("../assets/images/game2-screen-background_darker.jpg");
     width: 100%;
     height: 100%;
     position: absolute;
