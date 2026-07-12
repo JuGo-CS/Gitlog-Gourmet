@@ -29,6 +29,10 @@ document.addEventListener("DOMContentLoaded", function () {
         if (overlay) {
             overlay.classList.add('active');
         }
+        // Play intro SFX
+        AudioManager.playIntro(1);
+        // Start Game 1 BGM
+        AudioManager.playBGM('game1');
     }, 1000);
 });
 
@@ -218,6 +222,9 @@ function manageFlipEvent() {
     const tile2Id = parseInt(tile2.id);
 
     if (tileValues[tile1Id] === tileValues[tile2Id]) {
+        // Match — play correct SFX
+        AudioManager.playCorrect();
+
         // Match — convert flat index to row/col
         const r1 = Math.floor(tile1Id / numCols);
         const c1 = tile1Id % numCols;
@@ -241,6 +248,7 @@ function manageFlipEvent() {
     }
     else {
         combo = 0;
+        AudioManager.playWrong();
     }
 
     resetAllFaceUpTiles();
@@ -295,9 +303,13 @@ function endGame(){
     document.getElementById('difficulty-end-card').innerHTML = difficulty;
     document.getElementById('blackBackground_forGameHouses').style.zIndex = '10';
 
+    // Stop BGM and play finish/loss SFX
+    AudioManager.stopBGM();
+
     // Submit score to Supabase leaderboard (only on win — all tiles matched)
     const playerName = getPlayerName();
     if (score > 0) {
+        AudioManager.playFinish(null);
         submitScoreGame1(playerName, score, difficulty).then(result => {
             if (result && result.submitted) {
                 // Check rank after submission
@@ -307,9 +319,11 @@ function endGame(){
                         if (rank <= 3) {
                             rankEl.innerHTML = `&#127942; Rank #${rank} — Top 3!`;
                             rankEl.style.color = '#FFD700';
+                            AudioManager.playFinish(rank);
                         } else if (rank <= 10) {
                             rankEl.innerHTML = `&#127775; Rank #${rank} — Top 10!`;
                             rankEl.style.color = '#FFE0B2';
+                            AudioManager.playFinish(rank);
                         } else {
                             rankEl.innerHTML = `&#128200; Rank #${rank}`;
                             rankEl.style.color = '#FFF';
@@ -319,6 +333,8 @@ function endGame(){
                 });
             }
         });
+    } else {
+        AudioManager.playLoss();
     }
 }
 
@@ -334,6 +350,8 @@ function playAgain() {
 function togglePause() {
     const overlay = document.getElementById('pause-overlay');
     if (!overlay || !gameStarted) return;
+
+    AudioManager.playButtonPress();
 
     if (overlay.classList.contains('active')) {
         // Resume
@@ -356,6 +374,7 @@ function togglePause() {
 function pauseRestart() {
     document.getElementById('pause-overlay').classList.remove('active');
     isPaused = false;
+    AudioManager.playButtonPress();
     playAgain();
 }
 

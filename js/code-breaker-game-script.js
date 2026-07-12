@@ -15,6 +15,10 @@ document.addEventListener("DOMContentLoaded", function () {
         if (overlay) {
             overlay.classList.add('active');
         }
+        // Play intro SFX
+        AudioManager.playIntro(2);
+        // Start Game 2 BGM
+        AudioManager.playBGM('game2');
     }, 1000);
 });
 
@@ -237,6 +241,10 @@ function evaluateGuess() {
     else if (attemptNum - 1 == maxAttempts){
         endGame(false);
     }
+    else {
+        // Wrong guess (but game continues) — play wrong SFX
+        AudioManager.playWrong();
+    }
 }
 
 function isValidSubmit() {
@@ -304,8 +312,12 @@ function endGame(win){
     document.getElementById('pause-btn').classList.remove('visible');
     document.getElementById('pause-overlay').classList.remove('active');
 
+    // Stop BGM
+    AudioManager.stopBGM();
+
     // Calculate and submit score (only on win)
     if (win) {
+        AudioManager.playFinish(null);
         const finalScore = calculateGame2Score(win, attemptNum - 1);
         const playerName = getPlayerName();
         submitScoreGame2(playerName, finalScore, difficulty).then(result => {
@@ -317,9 +329,11 @@ function endGame(win){
                         if (rank <= 3) {
                             rankEl.innerHTML = `&#127942; Rank #${rank} — Top 3!`;
                             rankEl.style.color = '#FFD700';
+                            AudioManager.playFinish(rank);
                         } else if (rank <= 10) {
                             rankEl.innerHTML = `&#127775; Rank #${rank} — Top 10!`;
                             rankEl.style.color = '#FFE0B2';
+                            AudioManager.playFinish(rank);
                         } else {
                             rankEl.innerHTML = `&#128200; Rank #${rank}`;
                             rankEl.style.color = '#FFF';
@@ -329,6 +343,8 @@ function endGame(win){
                 });
             }
         });
+    } else {
+        AudioManager.playLoss();
     }
 }
 
@@ -354,6 +370,8 @@ function togglePause() {
     const overlay = document.getElementById('pause-overlay');
     if (!overlay) return;
 
+    AudioManager.playButtonPress();
+
     if (overlay.classList.contains('active')) {
         overlay.classList.remove('active');
         isPaused = false;
@@ -366,5 +384,6 @@ function togglePause() {
 function pauseRestart() {
     document.getElementById('pause-overlay').classList.remove('active');
     isPaused = false;
+    AudioManager.playButtonPress();
     playAgain();
 }

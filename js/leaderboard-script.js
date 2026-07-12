@@ -17,6 +17,9 @@ function initializePage(){
     const defaultBtn = document.getElementById('leaderboard-game1-switch');
     if (defaultBtn) defaultBtn.classList.add('active-btn');
 
+    // Start homepage/leaderboard BGM
+    AudioManager.playBGM('homepage');
+
     loadLeaderboardGame1();
     loadLeaderboardGame2();
 }
@@ -36,6 +39,8 @@ function selectBoard(boardNum) {
     if (activeBtn) {
         activeBtn.classList.add('active-btn');
     }
+
+    AudioManager.playButtonPress();
 }
 
 function selectDifficulty(diff) {
@@ -45,6 +50,8 @@ function selectDifficulty(diff) {
     });
     const activeDiff = document.querySelector(`.diff-btn[data-diff="${diff}"]`);
     if (activeDiff) activeDiff.classList.add('active-diff');
+
+    AudioManager.playButtonPress();
 
     // Reload the current board
     if (currentBoard === 1) loadLeaderboardGame1();

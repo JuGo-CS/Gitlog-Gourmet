@@ -1,7 +1,25 @@
+// Initialize audio on first user interaction
+let audioInitialized = false;
+function initAudio() {
+    if (audioInitialized) return;
+    audioInitialized = true;
+    AudioManager.init();
+    AudioManager.playBGM('homepage');
+}
+
+// Listen for first click/touch to init audio (autoplay policy)
+document.addEventListener('click', initAudio, { once: true });
+document.addEventListener('touchstart', initAudio, { once: true });
+
 document.querySelectorAll('.game-link').forEach(link => {
   link.addEventListener('click', function (e) {
     e.preventDefault(); 
 
+    // Ensure audio is initialized
+    if (!audioInitialized) initAudio();
+
+    // Play transition SFX
+    AudioManager.playTransition();
 
     const titleCard = document.getElementById('title-card');
     const blackBackground =  document.getElementById('blackBackground');
@@ -10,17 +28,13 @@ document.querySelectorAll('.game-link').forEach(link => {
 
     // Reset animation
     titleCard.style.animation = 'none';
-    void titleCard.offsetWidth; // Force reflow to restart animation
-
+    void titleCard.offsetWidth;
     blackBackground.style.animation = 'none';
-    void blackBackground.offsetWidth; // Force reflow to restart animation
-
+    void blackBackground.offsetWidth;
     whiteFadeIn.style.animation = 'none';
-    void whiteFadeIn.offsetWidth; // Force reflow to restart animation
-
+    void whiteFadeIn.offsetWidth;
     home_leaderboard_transition.style.animation = 'none';
-    void home_leaderboard_transition.offsetWidth; // Force reflow to restart animation
-
+    void home_leaderboard_transition.offsetWidth;
 
     titleCard.style.animationName = 'gitlogZoomIn';
     titleCard.style.animationDuration = '1.55s';
@@ -37,11 +51,8 @@ document.querySelectorAll('.game-link').forEach(link => {
     whiteFadeIn.style.animationTimingFunction = 'ease-in-out';
     whiteFadeIn.style.animationFillMode = 'forwards';
 
-
-
-    // Optional: Delay navigation until animation ends
     setTimeout(() => {
       window.location.href = this.getAttribute('href');
-    }, 1500); // match with animation duration
+    }, 1500);
   });
 });
