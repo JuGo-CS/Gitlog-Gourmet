@@ -135,15 +135,18 @@ function assignOnClickEventToImg(){
 }
 
 function generateOrderToGuess(){
-    const fruitValue = Math.floor(Math.random() * numGuessOptions).toString();
-    const mainValue = Math.floor(Math.random() * numGuessOptions).toString();
-    const drinkValue = Math.floor(Math.random() * numGuessOptions).toString();
-    const dessertValue = Math.floor(Math.random() * numGuessOptions).toString();
+    // Build pool [0..numGuessOptions-1], shuffle, take first numGuessTypes.
+    // Guarantees no duplicate value across categories -> 1 correct per column.
+    const pool = Array.from({ length: numGuessOptions }, (_, i) => i);
 
-    correctValues.push(fruitValue);
-    correctValues.push(mainValue);
-    correctValues.push(drinkValue);
-    correctValues.push(dessertValue);
+    for (let i = pool.length - 1; i > 0; i--){
+        const j = Math.floor(Math.random() * (i + 1));
+        [pool[i], pool[j]] = [pool[j], pool[i]];
+    }
+
+    for (let i = 0; i < numGuessTypes; i++){
+        correctValues.push(pool[i].toString());
+    }
 }
 
 function resetGuess() {
