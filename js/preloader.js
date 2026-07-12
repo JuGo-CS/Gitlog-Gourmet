@@ -127,6 +127,7 @@
     const barFill = document.querySelector(".pl-bar-fill");
     const percentText = document.querySelector(".pl-percent");
     const statusText = document.querySelector(".pl-status");
+    const startBtn = document.getElementById("pl-start-btn");
 
     let loadedCount = 0;
     const total = assets.length;
@@ -151,16 +152,12 @@
         }
 
         if (loadedCount >= total) {
-            // All done — hide preloader
-            setTimeout(function () {
-                preloader.classList.add("hidden");
-                // Remove preloader from DOM after transition
-                setTimeout(function () {
-                    if (preloader && preloader.parentNode) {
-                        preloader.parentNode.removeChild(preloader);
-                    }
-                }, 700);
-            }, 400);
+            // All done — show the "Let's Go!" button instead of auto-hiding
+            if (startBtn) {
+                startBtn.style.display = "inline-block";
+                startBtn.focus();
+            }
+            if (statusText) statusText.textContent = "Ready! Tap to begin your feast!";
         }
     }
 
@@ -192,4 +189,24 @@
 
     // Start preloading immediately (don't wait for window.load)
     startPreload();
+
+    // "Let's Go!" button click handler — starts BGM and hides preloader
+    if (startBtn) {
+        startBtn.addEventListener("click", function letsGo() {
+            // Start homepage BGM (this click is the user gesture browsers require)
+            AudioManager.playBGM('homepage');
+            // Skip ahead to avoid long silence at start of file
+            if (AudioManager.bgm.homepage) {
+                AudioManager.bgm.homepage.currentTime = 0;
+            }
+
+            // Hide preloader with fade-out
+            preloader.classList.add("hidden");
+            setTimeout(function () {
+                if (preloader && preloader.parentNode) {
+                    preloader.parentNode.removeChild(preloader);
+                }
+            }, 700);
+        });
+    }
 })();

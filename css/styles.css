@@ -88,6 +88,35 @@
     margin-top: 0.5vw;
 }
 
+/* "Let's Go!" start button */
+#pl-start-btn {
+    display: none;
+    margin-top: 1.5vw;
+    padding: 0.8vw 2.5vw;
+    font-size: 1.3vw;
+    font-weight: bold;
+    font-family: 'Comic Neue', cursive, sans-serif;
+    color: #3E1F1F;
+    background: linear-gradient(145deg, #FFD700, #FF8C00);
+    border: 3px solid #FFD700;
+    border-radius: 30px;
+    cursor: pointer;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.4), 0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s, box-shadow 0.2s;
+    letter-spacing: 0.05em;
+    animation: plBtnPulse 1.5s ease-in-out infinite;
+}
+
+#pl-start-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.6), 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+@keyframes plBtnPulse {
+    0%, 100% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.4), 0 4px 15px rgba(0, 0, 0, 0.3); }
+    50% { box-shadow: 0 0 35px rgba(255, 215, 0, 0.7), 0 4px 15px rgba(0, 0, 0, 0.3); }
+}
+
 /* Decorative floating food emojis */
 #preloader .pl-decor {
     position: absolute;

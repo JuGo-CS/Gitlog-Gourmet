@@ -1,16 +1,18 @@
-// Audio is auto-initialized by audio-manager.js on first interaction
-// Start homepage BGM on first click
-document.addEventListener('click', function startHomepageBGM() {
-    AudioManager.playBGM('homepage');
-    document.removeEventListener('click', startHomepageBGM);
-}, { once: true });
+// Add hover + click SFX to all interactive elements on homepage
+function addHoverClickSFX(selector) {
+    document.querySelectorAll(selector).forEach(el => {
+        el.addEventListener('mouseenter', () => AudioManager.playHover());
+        el.addEventListener('click', () => AudioManager.playButtonPress());
+    });
+}
+addHoverClickSFX('.game-link');
+addHoverClickSFX('#github-link');
+addHoverClickSFX('#user-badge .badge-toggle');
+addHoverClickSFX('#user-dropdown .dropdown-item');
 
 document.querySelectorAll('.game-link').forEach(link => {
   link.addEventListener('click', function (e) {
     e.preventDefault(); 
-
-    // Play transition SFX
-    AudioManager.playTransition();
 
     const titleCard = document.getElementById('title-card');
     const blackBackground =  document.getElementById('blackBackground');

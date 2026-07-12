@@ -22,18 +22,41 @@ let isPaused = false;
 let resizeTimer;
 
 document.addEventListener("DOMContentLoaded", function () {
-    // Wait for the white sphere collapse animation to finish (2s),
-    // then show the difficulty popup with a fade-in
+    // Wait for the white sphere collapse animation, show difficulty popup, play intro
     setTimeout(function () {
         const overlay = document.getElementById('difficulty-overlay');
         if (overlay) {
             overlay.classList.add('active');
         }
-        // Play intro SFX
+        // Play intro SFX only (BGM starts after difficulty chosen)
         AudioManager.playIntro(1);
-        // Start Game 1 BGM
-        AudioManager.playBGM('game1');
     }, 1000);
+
+    // Add hover + click SFX to difficulty buttons
+    setTimeout(function () {
+        document.querySelectorAll('.difficulty-btn').forEach(btn => {
+            btn.addEventListener('mouseenter', () => AudioManager.playHover());
+            btn.addEventListener('click', () => AudioManager.playButtonPress());
+        });
+        // Add hover + click SFX to pause button
+        const pauseBtn = document.getElementById('pause-btn');
+        if (pauseBtn) {
+            pauseBtn.addEventListener('mouseenter', () => AudioManager.playHover());
+        }
+        // Add hover + click SFX to end card buttons
+        document.querySelectorAll('.button-link').forEach(btn => {
+            btn.addEventListener('mouseenter', () => AudioManager.playHover());
+        });
+        // Add hover + click SFX to pause modal buttons
+        document.querySelectorAll('#pause-modal .pause-btn').forEach(btn => {
+            btn.addEventListener('mouseenter', () => AudioManager.playHover());
+        });
+        // Back to home arrow
+        const arrowHome = document.getElementById('arrow_goHome');
+        if (arrowHome) {
+            arrowHome.addEventListener('mouseenter', () => AudioManager.playHover());
+        }
+    }, 1200);
 });
 
 window.addEventListener("load", adjustTileMatrix);
@@ -81,6 +104,9 @@ function startGame1(selectedDifficulty) {
 
     // Show pause button
     document.getElementById('pause-btn').classList.add('visible');
+
+    // Start game BGM (only after difficulty is chosen)
+    AudioManager.playBGM('game1');
 
     // Start the hourglass GIF
     const hourglass = document.getElementById('timerGlassHour');
@@ -357,6 +383,7 @@ function togglePause() {
         // Resume
         overlay.classList.remove('active');
         isPaused = false;
+        AudioManager.resumeBGM();
         if (gameInterval === null && numMatchedTiles < totalCards) {
             gameInterval = setInterval(updateClock, 1000);
         }
@@ -364,6 +391,7 @@ function togglePause() {
         // Pause
         overlay.classList.add('active');
         isPaused = true;
+        AudioManager.pauseBGM();
         if (gameInterval) {
             clearInterval(gameInterval);
             gameInterval = null;

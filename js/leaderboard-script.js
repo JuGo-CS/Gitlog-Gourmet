@@ -20,6 +20,14 @@ function initializePage(){
     // Start homepage/leaderboard BGM
     AudioManager.playBGM('homepage');
 
+    // Add hover + click SFX to leaderboard buttons
+    document.querySelectorAll('#leaderboard-switch-button-container button').forEach(btn => {
+        btn.addEventListener('mouseenter', () => AudioManager.playHover());
+    });
+    document.querySelectorAll('.diff-btn').forEach(btn => {
+        btn.addEventListener('mouseenter', () => AudioManager.playHover());
+    });
+
     loadLeaderboardGame1();
     loadLeaderboardGame2();
 }

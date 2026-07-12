@@ -8,18 +8,53 @@ let difficulty = "EASY";
 let isPaused = false;
 
 document.addEventListener("DOMContentLoaded", function () {
-    // Wait for the white sphere collapse animation to finish (2s),
-    // then show the difficulty popup with a fade-in
+    // Wait for the white sphere collapse animation, show difficulty popup, play intro
     setTimeout(function () {
         const overlay = document.getElementById('difficulty-overlay');
         if (overlay) {
             overlay.classList.add('active');
         }
-        // Play intro SFX
+        // Play intro SFX only (BGM starts after difficulty chosen)
         AudioManager.playIntro(2);
-        // Start Game 2 BGM
-        AudioManager.playBGM('game2');
     }, 1000);
+
+    // Add hover + click SFX to interactive elements
+    setTimeout(function () {
+        // Difficulty buttons
+        document.querySelectorAll('.difficulty-btn').forEach(btn => {
+            btn.addEventListener('mouseenter', () => AudioManager.playHover());
+            btn.addEventListener('click', () => AudioManager.playButtonPress());
+        });
+        // Pause button
+        const pauseBtn = document.getElementById('pause-btn');
+        if (pauseBtn) {
+            pauseBtn.addEventListener('mouseenter', () => AudioManager.playHover());
+        }
+        // End card buttons
+        document.querySelectorAll('.button-link').forEach(btn => {
+            btn.addEventListener('mouseenter', () => AudioManager.playHover());
+        });
+        // Pause modal buttons
+        document.querySelectorAll('#pause-modal .pause-btn').forEach(btn => {
+            btn.addEventListener('mouseenter', () => AudioManager.playHover());
+        });
+        // Back to home arrow
+        const arrowHome = document.getElementById('arrow_goHome');
+        if (arrowHome) {
+            arrowHome.addEventListener('mouseenter', () => AudioManager.playHover());
+        }
+        // Submit and Reset buttons
+        const submitBtn = document.getElementById('game2-submit-button');
+        if (submitBtn) {
+            submitBtn.addEventListener('mouseenter', () => AudioManager.playHover());
+            submitBtn.addEventListener('click', () => AudioManager.playButtonPress());
+        }
+        const resetBtn = document.getElementById('game2-reset-button');
+        if (resetBtn) {
+            resetBtn.addEventListener('mouseenter', () => AudioManager.playHover());
+            resetBtn.addEventListener('click', () => AudioManager.playButtonPress());
+        }
+    }, 1200);
 });
 
 document.getElementById("game2-reset-button").addEventListener("click", resetGuess);
@@ -54,6 +89,9 @@ function startGame2(selectedDifficulty) {
 
     // Show pause button
     document.getElementById('pause-btn').classList.add('visible');
+
+    // Start game BGM (only after difficulty is chosen)
+    AudioManager.playBGM('game2');
 
     // Rebuild attempt containers with new maxAttempts
     createAttemptObjects();
@@ -375,9 +413,11 @@ function togglePause() {
     if (overlay.classList.contains('active')) {
         overlay.classList.remove('active');
         isPaused = false;
+        AudioManager.resumeBGM();
     } else {
         overlay.classList.add('active');
         isPaused = true;
+        AudioManager.pauseBGM();
     }
 }
 

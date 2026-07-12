@@ -22,26 +22,32 @@ const AudioManager = {
         if (this._initialized) return;
         this._initialized = true;
 
-        // BGM
         this.bgm.homepage = this._createAudio('assets/music/homepage_leaderboards_bgm.mp3', true);
-        this.bgm.game1 = this._createAudio('assets/music/game1_bgm.MP3', true);
-        this.bgm.game2 = this._createAudio('assets/music/game2_bgm.MP3', true);
 
-        // SFX
-        this._preloadSFX('transition', 'assets/music/transition_between_pages_sfx.MP3');
-        this._preloadSFX('buttonPress', 'assets/music/button_press_sfx.MP3');
-        this._preloadSFX('correct', 'assets/music/correct_sfx.MP3');
-        this._preloadSFX('wrong', 'assets/music/wrong_sfx.MP3');
-        this._preloadSFX('finish', 'assets/music/finish_sfx.MP3');
-        this._preloadSFX('top10', 'assets/music/finish_entering_top_10_sfx.MP3');
-        this._preloadSFX('loss', 'assets/music/loss_sfx.MP3');
-        this._preloadSFX('game1Intro', 'assets/music/game1_intro_sfx.MP3');
-        this._preloadSFX('game2Intro', 'assets/music/game2_intro_sfx.MP3');
+        const loadRest = () => {
+            this.bgm.game1 = this._createAudio('assets/music/game1_bgm.MP3', true);
+            this.bgm.game2 = this._createAudio('assets/music/game2_bgm.MP3', true);
 
-        // Process any queued commands
-        while (this._pendingQueue.length) {
-            const cmd = this._pendingQueue.shift();
-            this[cmd.method](...cmd.args);
+            this._preloadSFX('buttonPress', 'assets/music/button_press_sfx.MP3');
+            this._preloadSFX('correct', 'assets/music/correct_sfx.MP3');
+            this._preloadSFX('wrong', 'assets/music/wrong_sfx.MP3');
+            this._preloadSFX('finish', 'assets/music/finish_sfx.MP3');
+            this._preloadSFX('top10', 'assets/music/finish_entering_top_10_sfx.MP3');
+            this._preloadSFX('loss', 'assets/music/loss_sfx.MP3');
+            this._preloadSFX('game1Intro', 'assets/music/game1_intro_sfx.MP3');
+            this._preloadSFX('game2Intro', 'assets/music/game2_intro_sfx.MP3');
+
+            // Process any queued commands
+            while (this._pendingQueue.length) {
+                const cmd = this._pendingQueue.shift();
+                this[cmd.method](...cmd.args);
+            }
+        };
+
+        if ('requestIdleCallback' in window) {
+            requestIdleCallback(loadRest);
+        } else {
+            setTimeout(loadRest, 0);
         }
     },
 
@@ -56,13 +62,13 @@ const AudioManager = {
     _createAudio(src, loop) {
         const audio = new Audio(src);
         audio.loop = loop;
-        audio.volume = 0.5;
+        audio.volume = 1;
         return audio;
     },
 
     _preloadSFX(name, src) {
         const audio = new Audio(src);
-        audio.volume = 0.6;
+        audio.volume = 1;
         audio.preload = 'auto';
         // Store in a cache
         if (!this._sfxCache) this._sfxCache = {};
@@ -162,18 +168,12 @@ const AudioManager = {
     },
 
     playTransition() {
-        this.playSFX('transition');
+        // Removed — transition SFX sounded bad
+    },
+
+    playHover() {
+        this.playSFX('correct');
     }
 };
 
-// ============================================================
-// AUTO-INIT on first user interaction (handles autoplay policy)
-// ============================================================
-(function() {
-    function tryInit() {
-        AudioManager.init();
-    }
-    document.addEventListener('click', tryInit, { once: true });
-    document.addEventListener('touchstart', tryInit, { once: true });
-    document.addEventListener('keydown', tryInit, { once: true });
-})();
+AudioManager.init();
