@@ -173,12 +173,18 @@
         }
 
         if (loadedCount >= total) {
-            // All done — show the "Let's Go!" button instead of auto-hiding
+            // All done — hide progress elements, show the "Let's Go!" button
+            const barTrack = document.querySelector(".pl-bar-track");
+            if (barTrack) barTrack.style.display = "none";
+            if (percentText) percentText.style.display = "none";
+            if (statusText) statusText.textContent = "Ready! Tap to begin your feast!";
+            const subtitle = document.querySelector(".pl-subtitle");
+            if (subtitle) subtitle.style.display = "none";
+
             if (startBtn) {
                 startBtn.style.display = "inline-block";
                 startBtn.focus();
             }
-            if (statusText) statusText.textContent = "Ready! Tap to begin your feast!";
         }
     }
 
