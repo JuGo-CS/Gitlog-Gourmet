@@ -133,25 +133,38 @@ function getPlayerName() {
 // ============================================================
 async function submitScoreGame1(playerName, score, difficulty) {
     if (!playerName || score <= 0) return false;
+    // Normalize to lowercase for case-insensitive matching
+    const normalizedName = playerName.trim();
     try {
-        // Check existing score for this player
-        const { data: existing } = await supabaseClient
+        // Check existing score for this player (case-insensitive via JS)
+        const { data: allRows, error: fetchError } = await supabaseClient
             .from('leaderboard_game1')
-            .select('score')
-            .eq('player_name', playerName)
-            .maybeSingle();
+            .select('score, player_name');
+
+        if (fetchError) {
+            console.error("Error checking existing score:", fetchError);
+        }
+
+        // Find existing entry with same name (case-insensitive)
+        const existing = allRows ? allRows.find(r => 
+            r.player_name.toLowerCase() === normalizedName.toLowerCase()
+        ) : null;
 
         if (existing && score <= existing.score) {
-            console.log(`Score not submitted — ${playerName}'s existing score (${existing.score}) is higher or equal.`);
+            console.log(`Score not submitted — ${normalizedName}'s existing score (${existing.score}) is higher or equal.`);
             return { submitted: false, reason: 'existing_higher' };
         }
 
         if (existing) {
-            // Delete old lower score
-            await supabaseClient
+            // Delete old lower score — match by exact stored name
+            const { error: deleteError } = await supabaseClient
                 .from('leaderboard_game1')
                 .delete()
-                .eq('player_name', playerName);
+                .eq('player_name', existing.player_name);
+            
+            if (deleteError) {
+                console.error("Error deleting old score:", deleteError);
+            }
         }
 
         // Insert new score
@@ -184,25 +197,38 @@ async function submitScoreGame1(playerName, score, difficulty) {
 // ============================================================
 async function submitScoreGame2(playerName, score, difficulty) {
     if (!playerName || score <= 0) return false;
+    // Normalize to lowercase for case-insensitive matching
+    const normalizedName = playerName.trim();
     try {
-        // Check existing score for this player
-        const { data: existing } = await supabaseClient
+        // Check existing score for this player (case-insensitive via JS)
+        const { data: allRows, error: fetchError } = await supabaseClient
             .from('leaderboard_game2')
-            .select('score')
-            .eq('player_name', playerName)
-            .maybeSingle();
+            .select('score, player_name');
+
+        if (fetchError) {
+            console.error("Error checking existing score:", fetchError);
+        }
+
+        // Find existing entry with same name (case-insensitive)
+        const existing = allRows ? allRows.find(r => 
+            r.player_name.toLowerCase() === normalizedName.toLowerCase()
+        ) : null;
 
         if (existing && score <= existing.score) {
-            console.log(`Score not submitted — ${playerName}'s existing score (${existing.score}) is higher or equal.`);
+            console.log(`Score not submitted — ${normalizedName}'s existing score (${existing.score}) is higher or equal.`);
             return { submitted: false, reason: 'existing_higher' };
         }
 
         if (existing) {
-            // Delete old lower score
-            await supabaseClient
+            // Delete old lower score — match by exact stored name
+            const { error: deleteError } = await supabaseClient
                 .from('leaderboard_game2')
                 .delete()
-                .eq('player_name', playerName);
+                .eq('player_name', existing.player_name);
+            
+            if (deleteError) {
+                console.error("Error deleting old score:", deleteError);
+            }
         }
 
         // Insert new score
