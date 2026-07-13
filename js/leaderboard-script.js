@@ -121,17 +121,27 @@ function renderLeaderboard(tbodyId, data, scoreField) {
         return;
     }
 
+    let currentRank = 0;
+    let previousScore = null;
+
     data.forEach((row, index) => {
-        const tr = document.createElement("tr");
-        const rank = index + 1;
+        const score = row[scoreField] ?? row.score ?? row.MG_highest_score ?? row.CB_highest_score ?? 0;
+
+        // Dense rank: same score = same rank
+        if (score !== previousScore) {
+            currentRank = index + 1;
+            previousScore = score;
+        }
+
+        const rank = currentRank;
         let rankClass = "";
         if (rank === 1) rankClass = "rank-gold";
         else if (rank === 2) rankClass = "rank-silver";
         else if (rank === 3) rankClass = "rank-bronze";
 
-        const score = row[scoreField] ?? row.score ?? row.MG_highest_score ?? row.CB_highest_score ?? 0;
         const name = row.player_name || row.user_name || "Unknown";
 
+        const tr = document.createElement("tr");
         tr.innerHTML = `
             <td class="rank-cell ${rankClass}">${rank}</td>
             <td class="name-cell">${escapeHtml(name)}</td>

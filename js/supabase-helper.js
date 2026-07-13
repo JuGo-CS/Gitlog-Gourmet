@@ -268,12 +268,22 @@ async function getPlayerRank(tableName, playerName) {
 
         if (error || !data) return null;
 
-        const index = data.findIndex(row =>
-            row.player_name.toLowerCase() === playerName.toLowerCase()
-        );
+        // Dense rank: players with same score share the same rank
+        let currentRank = 0;
+        let previousScore = null;
 
-        if (index === -1) return null;
-        return index + 1; // 1-based rank
+        for (let i = 0; i < data.length; i++) {
+            const row = data[i];
+            if (row.score !== previousScore) {
+                currentRank = i + 1;
+                previousScore = row.score;
+            }
+            if (row.player_name.toLowerCase() === playerName.toLowerCase()) {
+                return currentRank;
+            }
+        }
+
+        return null;
     } catch {
         return null;
     }
