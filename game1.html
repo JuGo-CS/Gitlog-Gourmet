@@ -49,15 +49,14 @@
                     </div>
                     <div id="game1-rank-display" class="rank-display" style="display:none;"></div>
                     <div class="end-card-buttons">
-                        <a href="index.html" class="button-link" title="Home">&#127968;</a>
-                        <a href="#" class="button-link" onclick="event.preventDefault(); playAgain();" title="Play Again">&#128260;</a>
-                        <a href="leaderboard.html" class="button-link" title="Leaderboard">&#127942;</a>
+                        <a href="index.html" class="button-link" onclick="stopCelebration()" title="Home">&#127968;</a>
+                        <a href="#" class="button-link" onclick="event.preventDefault(); stopCelebration(); playAgain();" title="Play Again">&#128260;</a>
+                        <a href="leaderboard.html" class="button-link" onclick="stopCelebration()" title="Leaderboard">&#127942;</a>
                     </div>
                 </div>
             </div>
 
             <header>
-                <button id="settings-btn" onclick="toggleSettings()" title="Audio Settings">&#127918;</button>
                 <img id="game-logo" src="assets/images/game-logo.png">
                 <img id="gitlog_text_logo" src="assets/images/Gitlog Horizontal.png">
                 
@@ -189,7 +188,6 @@
                     </div>
                 </div>
             </div>
-            <button class="settings-close-btn" onclick="toggleSettings()">&#10005; Close</button>
         </div>
     </div>
 

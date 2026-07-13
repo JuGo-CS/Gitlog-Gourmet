@@ -11,7 +11,6 @@
         <div id="game-container">
 
             <header>
-                <button id="settings-btn" onclick="toggleSettings()" title="Audio Settings">&#127918;</button>
                 <img id="game-logo" src="assets/images/game-logo.png">
                 <img id="gitlog_text_logo" src="assets/images/Gitlog Horizontal.png">
 
@@ -112,10 +111,13 @@
     <!-- Settings Modal -->
     <div id="settings-overlay">
         <div id="settings-modal">
-            <h2>&#127918; Audio Settings</h2>
+            <h2>&#9881; Audio Settings</h2>
             <div class="settings-section">
                 <div class="setting-row">
-                    <span class="setting-label">&#127925; BGM</span>
+                    <div class="setting-info">
+                        <span class="setting-icon">&#127925;</span>
+                        <span class="setting-label">Background Music</span>
+                    </div>
                     <div class="setting-controls">
                         <input type="checkbox" id="bgm-toggle" checked onchange="toggleBGM()">
                         <input type="range" id="bgm-volume" min="0" max="1" step="0.05" value="0.5" oninput="setBGMVolume(this.value)">
@@ -123,7 +125,10 @@
                     </div>
                 </div>
                 <div class="setting-row">
-                    <span class="setting-label">&#128266; SFX</span>
+                    <div class="setting-info">
+                        <span class="setting-icon">&#128266;</span>
+                        <span class="setting-label">Sound Effects</span>
+                    </div>
                     <div class="setting-controls">
                         <input type="checkbox" id="sfx-toggle" checked onchange="toggleSFX()">
                         <input type="range" id="sfx-volume" min="0" max="1" step="0.05" value="0.6" oninput="setSFXVolume(this.value)">
@@ -131,7 +136,6 @@
                     </div>
                 </div>
             </div>
-            <button class="settings-close-btn" onclick="toggleSettings()">&#10005; Close</button>
         </div>
     </div>
 

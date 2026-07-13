@@ -346,10 +346,12 @@ function endGame(){
                             rankEl.innerHTML = `&#127942; Rank #${rank} — Top 3!`;
                             rankEl.style.color = '#FFD700';
                             AudioManager.playFinish(rank);
+                            triggerCelebration(rank);
                         } else if (rank <= 10) {
                             rankEl.innerHTML = `&#127775; Rank #${rank} — Top 10!`;
                             rankEl.style.color = '#FFE0B2';
                             AudioManager.playFinish(rank);
+                            triggerCelebration(rank);
                         } else {
                             rankEl.innerHTML = `&#128200; Rank #${rank}`;
                             rankEl.style.color = '#FFF';

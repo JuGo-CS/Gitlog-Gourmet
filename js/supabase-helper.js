@@ -6,6 +6,83 @@
 // ============================================================
 
 // ============================================================
+// CELEBRATION EFFECTS (confetti + rank reveal)
+// ============================================================
+function triggerCelebration(rank) {
+    // Create confetti container
+    const container = document.createElement('div');
+    container.className = 'celebration-container';
+    container.id = 'celebration-container';
+    document.body.appendChild(container);
+
+    const colors = ['#FFD700', '#FF6B6B', '#4CAF50', '#2196F3', '#FF9800', '#E040FB', '#FF4081', '#00E5FF'];
+
+    // Spawn confetti in waves for continuous effect
+    let confettiInterval;
+    function spawnConfettiWave() {
+        for (let i = 0; i < 12; i++) {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            confetti.style.left = Math.random() * 100 + '%';
+            confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+            confetti.style.width = (Math.random() * 10 + 4) + 'px';
+            confetti.style.height = (Math.random() * 10 + 4) + 'px';
+            confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+            confetti.style.animationDuration = (Math.random() * 2 + 2.5) + 's';
+            confetti.style.animationDelay = '0s';
+            container.appendChild(confetti);
+
+            // Remove each piece after its animation ends
+            setTimeout(() => {
+                if (confetti.parentNode) confetti.parentNode.removeChild(confetti);
+            }, 4500);
+        }
+    }
+
+    // Spawn waves every 300ms for continuous confetti
+    spawnConfettiWave();
+    confettiInterval = setInterval(spawnConfettiWave, 300);
+
+    // Create big rank reveal
+    const reveal = document.createElement('div');
+    reveal.className = 'rank-reveal';
+    let rankText = '';
+    let medalEmoji = '';
+    if (rank === 1) { medalEmoji = '&#129351;'; rankText = '1st'; }
+    else if (rank === 2) { medalEmoji = '&#129352;'; rankText = '2nd'; }
+    else if (rank === 3) { medalEmoji = '&#129353;'; rankText = '3rd'; }
+    else { medalEmoji = '&#127775;'; rankText = rank + 'th'; }
+
+    reveal.innerHTML = `
+        <div class="big-rank">
+            ${medalEmoji} #${rankText}
+            <span class="big-rank-label">TOP 10!</span>
+        </div>
+    `;
+    document.body.appendChild(reveal);
+
+    // Clean up the reveal after animation, but keep confetti going
+    setTimeout(() => {
+        if (reveal.parentNode) reveal.parentNode.removeChild(reveal);
+    }, 3500);
+
+    // Store the interval so it can be stopped later
+    window._confettiInterval = confettiInterval;
+}
+
+// Call this when user clicks home, restart, or leaderboard
+function stopCelebration() {
+    if (window._confettiInterval) {
+        clearInterval(window._confettiInterval);
+        window._confettiInterval = null;
+    }
+    const container = document.getElementById('celebration-container');
+    if (container && container.parentNode) {
+        container.parentNode.removeChild(container);
+    }
+}
+
+// ============================================================
 // SUPABASE CONFIGURATION
 // ============================================================
 const SUPABASE_URL = "https://jfvhcgloqrpjfdzuxusd.supabase.co";
