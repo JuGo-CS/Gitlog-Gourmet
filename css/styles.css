@@ -549,6 +549,193 @@
     height: 100%;
 }
 
+/* ============================================
+   SETTINGS BUTTON
+   ============================================ */
+#settings-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5vw;
+    height: 2.5vw;
+    color: rgb(236, 236, 236);
+    background: white;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    font-size: 1.3vw;
+    cursor: pointer;
+    position: absolute;
+    right: 5.5%;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 5;
+    transition: transform 0.2s, color 0.2s, border-color 0.2s, background 0.2s;
+    padding: 0;
+    line-height: 1;
+    
+}
+
+#settings-btn:hover {
+    color: #FFD700;
+    border-color: #FFD700;
+    background: #FFD700;
+    transform: translateY(-50%) scale(1.15);
+}
+
+/* ============================================
+   SETTINGS MODAL
+   ============================================ */
+#settings-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Comic Neue', cursive, sans-serif;
+}
+
+#settings-overlay.active {
+    display: flex;
+    animation: settingsFadeIn 0.3s ease-out forwards;
+}
+
+@keyframes settingsFadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+#settings-modal {
+    background: linear-gradient(145deg, #8B3A3A, #5C1A1A);
+    border: 4px solid #FFD700;
+    border-radius: 20px;
+    padding: 2vw 2.5vw;
+    width: 32vw;
+    max-width: 450px;
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.2), 0 0 60px rgba(0, 0, 0, 0.5);
+    animation: settingsPop 0.3s ease-out forwards;
+}
+
+@keyframes settingsPop {
+    0% { transform: scale(0.85); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+#settings-modal h2 {
+    color: #FFD700;
+    font-size: 1.8vw;
+    margin: 0 0 1.5vw 0;
+    text-align: center;
+    text-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+    letter-spacing: 0.05em;
+}
+
+.settings-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2vw;
+    margin-bottom: 1.5vw;
+}
+
+.setting-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    padding: 0.8vw 1.2vw;
+    border: 1px solid rgba(255, 215, 0, 0.15);
+}
+
+.setting-label {
+    color: #FFE0B2;
+    font-size: 1vw;
+    font-weight: bold;
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+}
+
+.setting-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.6vw;
+    flex-shrink: 0;
+}
+
+/* Checkbox styling */
+.setting-controls input[type="checkbox"] {
+    width: 1.3vw;
+    height: 1.3vw;
+    cursor: pointer;
+    accent-color: #FFD700;
+}
+
+/* Range slider styling */
+.setting-controls input[type="range"] {
+    width: 8vw;
+    height: 0.4vw;
+    -webkit-appearance: none;
+    appearance: none;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+    outline: none;
+    cursor: pointer;
+}
+
+.setting-controls input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 1.2vw;
+    height: 1.2vw;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #FFD700, #FF8C00);
+    cursor: pointer;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 8px rgba(255, 215, 0, 0.4);
+}
+
+.setting-controls input[type="range"]::-moz-range-thumb {
+    width: 1.2vw;
+    height: 1.2vw;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #FFD700, #FF8C00);
+    cursor: pointer;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.vol-pct {
+    color: #FFD700;
+    font-size: 0.85vw;
+    font-weight: bold;
+    min-width: 2.5vw;
+    text-align: right;
+}
+
+.settings-close-btn {
+    display: block;
+    margin: 0 auto;
+    padding: 0.6vw 2vw;
+    font-size: 1vw;
+    font-weight: bold;
+    font-family: 'Comic Neue', cursive, sans-serif;
+    color: #3E1F1F;
+    background: linear-gradient(145deg, #FFD700, #FF8C00);
+    border: 2px solid #FFD700;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+}
+
+.settings-close-btn:hover {
+    transform: scale(1.08);
+    box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+}
+
 #user-dropdown {
     display: none;
     position: absolute;

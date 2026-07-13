@@ -17,10 +17,21 @@ const AudioManager = {
     _initialized: false,
     _pendingQueue: [],
 
+    // Settings — persisted in localStorage
+    settings: {
+        bgmEnabled: true,
+        sfxEnabled: true,
+        bgmVolume: 0.5,
+        sfxVolume: 0.6
+    },
+
     // Preload all audio files
     init() {
         if (this._initialized) return;
         this._initialized = true;
+
+        // Load saved settings
+        this._loadSettings();
 
         this.bgm.homepage = this._createAudio('assets/music/homepage_leaderboards_bgm.mp3', true);
 
@@ -62,18 +73,87 @@ const AudioManager = {
     _createAudio(src, loop) {
         const audio = new Audio(src);
         audio.loop = loop;
-        audio.volume = 1;
+        audio.volume = this.settings.bgmVolume;
+        audio.muted = !this.settings.bgmEnabled;
         return audio;
     },
 
     _preloadSFX(name, src) {
         const audio = new Audio(src);
-        audio.volume = 1;
+        audio.volume = this.settings.sfxVolume;
+        audio.muted = !this.settings.sfxEnabled;
         audio.preload = 'auto';
         // Store in a cache
         if (!this._sfxCache) this._sfxCache = {};
         this._sfxCache[name] = audio;
     },
+
+    // ============================================================
+    // Settings Persistence
+    // ============================================================
+    _loadSettings() {
+        try {
+            const saved = localStorage.getItem('gitlog_audio_settings');
+            if (saved) {
+                const parsed = JSON.parse(saved);
+                Object.assign(this.settings, parsed);
+            }
+        } catch (e) { /* ignore */ }
+    },
+
+    _saveSettings() {
+        try {
+            localStorage.setItem('gitlog_audio_settings', JSON.stringify(this.settings));
+        } catch (e) { /* ignore */ }
+    },
+
+    // ============================================================
+    // Volume / Mute Controls
+    // ============================================================
+    setBGMVolume(vol) {
+        this.settings.bgmVolume = Math.max(0, Math.min(1, vol));
+        [this.bgm.homepage, this.bgm.game1, this.bgm.game2].forEach(t => {
+            if (t) t.volume = this.settings.bgmVolume;
+        });
+        this._saveSettings();
+    },
+
+    setSFXVolume(vol) {
+        this.settings.sfxVolume = Math.max(0, Math.min(1, vol));
+        if (this._sfxCache) {
+            Object.values(this._sfxCache).forEach(a => { a.volume = this.settings.sfxVolume; });
+        }
+        this._saveSettings();
+    },
+
+    toggleBGM() {
+        this.settings.bgmEnabled = !this.settings.bgmEnabled;
+        const muted = !this.settings.bgmEnabled;
+        [this.bgm.homepage, this.bgm.game1, this.bgm.game2].forEach(t => {
+            if (t) t.muted = muted;
+        });
+        // If re-enabling and we have a current track, restart it
+        if (this.settings.bgmEnabled && this.bgm.current && this.bgm.current.paused) {
+            this.bgm.current.play().catch(() => {});
+        }
+        this._saveSettings();
+        return this.settings.bgmEnabled;
+    },
+
+    toggleSFX() {
+        this.settings.sfxEnabled = !this.settings.sfxEnabled;
+        const muted = !this.settings.sfxEnabled;
+        if (this._sfxCache) {
+            Object.values(this._sfxCache).forEach(a => { a.muted = muted; });
+        }
+        this._saveSettings();
+        return this.settings.sfxEnabled;
+    },
+
+    isBGMEnabled() { return this.settings.bgmEnabled; },
+    isSFXEnabled() { return this.settings.sfxEnabled; },
+    getBGMVolume() { return this.settings.bgmVolume; },
+    getSFXVolume() { return this.settings.sfxVolume; },
 
     // ============================================================
     // BGM Control
@@ -145,9 +225,12 @@ const AudioManager = {
     playSFX(name) {
         if (!this._ensureInit('playSFX', [name])) return;
         if (!this._sfxCache || !this._sfxCache[name]) return;
+        // Don't play if SFX is disabled
+        if (!this.settings.sfxEnabled) return;
         // Clone to allow overlapping sounds
         const clone = this._sfxCache[name].cloneNode();
-        clone.volume = 0.6;
+        clone.volume = this.settings.sfxVolume;
+        clone.muted = !this.settings.sfxEnabled;
         clone.play().catch(() => {});
     },
 
