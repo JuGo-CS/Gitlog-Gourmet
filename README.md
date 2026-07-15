@@ -18,6 +18,8 @@
 | 🏆 **Leaderboards** | Top scores saved to the cloud via Supabase |
 | 👤 **Usernames** | Persistent profiles saved in your browser |
 | ☁️ **Cloud saves** | Scores sync across devices |
+| 🎵 **Audio system** | BGM + SFX with volume controls |
+| 🎊 **Celebrations** | Confetti + rank reveal for Top 10 |
 
 ---
 
@@ -43,7 +45,7 @@
 | CSS3 | Styling & animations |
 | JavaScript (Vanilla) | Game logic & API calls |
 | Supabase | Cloud database for leaderboards |
-| localStorage | Username persistence |
+| localStorage | Username & settings persistence |
 | Vercel | Hosting |
 
 ---
@@ -52,7 +54,7 @@
 
 | Page | File | Description |
 |------|------|-------------|
-| 🏠 **Home** | `index.html` | Main hub — navigate to games or leaderboard |
+| 🏠 **Home** | `index.html` | Main hub with preloader, username system, settings, personal best |
 | 🃏 **Matching Pairs** | `game1.html` | Memory matching game |
 | 🔐 **Code Breaker** | `game2.html` | Logic puzzle game |
 | 🏆 **Leaderboard** | `leaderboard.html` | Top scores for both games |
@@ -68,10 +70,12 @@ Navigation uses a smooth white-sphere transition animation between pages.
 1. A grid of face-down tiles is shown
 2. Click a tile to reveal the food image underneath
 3. Click another to find its match
-4. Match = points. Miss = tiles flip back. Simple!
+4. Match = points. Miss = tiles flip back with a wrong SFX!
 5. Clear all pairs to win 🎉
 
-**Scoring:** 50 pts per match + 10 combo bonus for consecutive matches.
+**Scoring:** `(match_points + combo_bonus + time_bonus) × difficulty_multiplier`
+- **Match:** 50 pts | **Combo:** +10 per streak | **Time bonus:** up to +2000 for speed
+- **Multiplier:** Easy ×1, Medium ×1.5, Hard ×2
 
 | Difficulty | Grid | Pairs | Varieties |
 |-----------|------|-------|-----------|
@@ -90,8 +94,9 @@ Navigation uses a smooth white-sphere transition animation between pages.
 3. Hit **Submit** to check
 4. Feedback: 🟢 Correct item & position / 🟡 Correct item, wrong position
 5. Win before you run out of attempts!
+6. **Lose?** The correct combo is revealed so you learn for next time!
 
-**Scoring (win only):** (1000 + 150 × unused attempts) × difficulty multiplier
+**Scoring (win only):** `(1000 + 150 × unused attempts) × difficulty_multiplier`
 
 | Difficulty | Attempts |
 |-----------|----------|
@@ -104,10 +109,20 @@ Navigation uses a smooth white-sphere transition animation between pages.
 ## 🏆 Leaderboard
 
 - Top 50 scores per game, powered by Supabase
+- **Filter by difficulty** — ALL / EASY / MEDIUM / HARD tabs
+- **Shared ranking** — same score = same rank (dense rank)
 - Scores only save when you **win**
-- Only your **highest score** is kept
+- Only your **highest score** is kept per difficulty
 - Gold / Silver / Bronze styling for top 3
 - End card shows your rank after each game
+
+---
+
+## 🎊 Celebrations
+
+When you hit **Top 10**, get ready for:
+- **Confetti rain** 🎉 — colorful particles fall continuously until you navigate away
+- **Big rank reveal** 👑 — a dramatic full-screen animation shows your rank in massive text
 
 ---
 
@@ -117,16 +132,37 @@ Navigation uses a smooth white-sphere transition animation between pages.
 - Multiple accounts can be saved on the same device
 - New usernames are checked against the database to prevent duplicates
 - Click the badge in the header to **Switch Account** or **Log Out**
+- **Personal Best** button 🏆 shows your highest scores for both games
+
+---
+
+## 🎵 Audio System
+
+- **BGM** plays on each page — homepage, game 1, game 2, and leaderboard
+- **SFX** for hover, clicks, correct/wrong guesses, game finish, and top 10 fanfare
+- **Settings modal** ⚙ — toggle BGM and SFX on/off, adjust volume with sliders
+- Settings persist across sessions via localStorage
+- Audio auto-initializes on first user interaction (browser policy compliant)
+
+---
+
+## ⏸️ Pause System
+
+Both games feature a pause button (top-center) that:
+- Pauses the timer and BGM
+- Shows a modal with **Continue** and **Restart** options
+- Resumes BGM when continuing
 
 ---
 
 ## 🕹️ How to Play
 
 1. **Visit the game** → [gitlog-gourmet.vercel.app](https://gitlog-gourmet.vercel.app/) 🚀
-2. **Enter a username** — Create or select a saved account
-3. **Click a game house** — Choose Matching Pairs or Code Breaker
-4. **Pick a difficulty** — Easy, Medium, or Hard
-5. **Play!** — Try to top the leaderboard! 🏆
+2. **Wait for assets to load** — progress bar fills up, then click **"Let's Go!"**
+3. **Enter a username** — Create or select a saved account
+4. **Click a game house** — Choose Matching Pairs or Code Breaker
+5. **Pick a difficulty** — Easy, Medium, or Hard
+6. **Play!** — Try to top the leaderboard! 🏆
 
 ---
 
@@ -143,17 +179,20 @@ Navigation uses a smooth white-sphere transition animation between pages.
 │   └── styles.css              # Stylesheet
 │
 ├── js/
-│   ├── animationElements.js    # Page transitions
+│   ├── animationElements.js    # Page transitions + homepage SFX
 │   ├── matching-game-script.js # Game 1 logic
 │   ├── code-breaker-game-script.js # Game 2 logic
 │   ├── leaderboard-script.js   # Leaderboard fetching
-│   ├── username-manager.js     # Username system
-│   ├── supabase-helper.js      # Supabase client
+│   ├── username-manager.js     # Username system + personal best
+│   ├── supabase-helper.js      # Supabase client + celebrations
+│   ├── audio-manager.js        # BGM & SFX system
+│   ├── settings-ui.js          # Audio settings UI
 │   ├── preloader.js            # Asset preloader
 │   └── universal-style-script.js # Responsive scaling
 │
 └── assets/
     ├── images/                 # UI elements & backgrounds
+    ├── music/                  # BGM and SFX files
     ├── cabinet/                # Food images (Game 2)
     ├── tile-entity/            # Tile images (Game 1)
     └── leaderboard/            # Rank badges
