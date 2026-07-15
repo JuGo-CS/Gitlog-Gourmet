@@ -353,6 +353,22 @@ function endGame(win){
     // Stop BGM
     AudioManager.stopBGM();
 
+    // Show correct combo on loss
+    if (!win) {
+        const comboContainer = document.getElementById('game2-correct-combo');
+        if (comboContainer) {
+            const slots = ['combo-fruit', 'combo-main', 'combo-drink', 'combo-dessert'];
+            const values = correctValues;
+            slots.forEach((slotId, i) => {
+                const slot = document.getElementById(slotId);
+                if (slot) {
+                    slot.innerHTML = `<img src="assets/cabinet/${['fruit','main','drink','dessert'][i]}-${values[i]}.png" alt="Correct ${['Fruit','Main','Drink','Dessert'][i]}">`;
+                }
+            });
+            comboContainer.style.display = 'block';
+        }
+    }
+
     // Calculate and submit score (only on win)
     if (win) {
         AudioManager.playFinish(null);
