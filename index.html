@@ -55,6 +55,9 @@
                 <!-- Settings button -->
                 <button id="settings-btn" onclick="toggleSettings()" title="Audio Settings">&#127918;</button>
 
+                <!-- Personal Best button -->
+                <button id="pb-btn" onclick="togglePersonalBest()" title="Personal Best">&#127942;</button>
+
                 <!-- <button id="home-menu-button" style="display:none;">
                     LOG OUT
                 </button> -->
@@ -133,6 +136,17 @@
         </p>
         <hr class="us-divider">
         <p class="us-footer">Gitlog Gourmet &copy; 2025 &mdash; <span>CMSC 126</span></p>
+    </div>
+
+    <!-- Personal Best Modal -->
+    <div id="pb-overlay">
+        <div id="pb-modal">
+            <h2>&#127942; Personal Best</h2>
+            <div id="pb-content">
+                <div class="pb-loading">Loading your records...</div>
+            </div>
+            <button class="pb-close-btn" onclick="togglePersonalBest()">&#10005; Close</button>
+        </div>
     </div>
 
     <!-- Settings Modal -->

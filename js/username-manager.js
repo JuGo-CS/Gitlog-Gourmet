@@ -366,6 +366,92 @@ function initializeUsernameSystem() {
             }
         });
     }
+
+    // Personal Best overlay close on background click
+    const pbOverlay = document.getElementById("pb-overlay");
+    if (pbOverlay) {
+        pbOverlay.addEventListener("click", function (e) {
+            if (e.target === this) {
+                this.classList.remove("active");
+            }
+        });
+    }
+}
+
+// ============================================================
+// PERSONAL BEST
+// ============================================================
+function togglePersonalBest() {
+    const overlay = document.getElementById("pb-overlay");
+    if (!overlay) return;
+    overlay.classList.toggle("active");
+
+    if (overlay.classList.contains("active")) {
+        loadPersonalBest();
+    }
+}
+
+async function loadPersonalBest() {
+    const content = document.getElementById("pb-content");
+    if (!content) return;
+
+    const username = getActiveUsername();
+    if (!username) {
+        content.innerHTML = `<div class="pb-empty">&#128100; No active user. Please log in first.</div>`;
+        return;
+    }
+
+    content.innerHTML = `<div class="pb-loading">&#9203; Fetching your records...</div>`;
+
+    const records = await getPersonalBest(username);
+
+    let html = `<div class="pb-user">&#128100; <span>${escapeHtml(username)}</span></div>`;
+
+    // Game 1
+    if (records.game1) {
+        html += `
+            <div class="pb-game-row">
+                <div class="pb-game-icon">&#127918;</div>
+                <div class="pb-game-info">
+                    <div class="pb-game-name">Matching Pairs</div>
+                    <div class="pb-game-diff">${records.game1.rating || '---'}</div>
+                </div>
+                <div class="pb-game-score">${records.game1.score}</div>
+            </div>`;
+    } else {
+        html += `
+            <div class="pb-game-row pb-no-score">
+                <div class="pb-game-icon">&#127918;</div>
+                <div class="pb-game-info">
+                    <div class="pb-game-name">Matching Pairs</div>
+                </div>
+                <div class="pb-game-score">--</div>
+            </div>`;
+    }
+
+    // Game 2
+    if (records.game2) {
+        html += `
+            <div class="pb-game-row">
+                <div class="pb-game-icon">&#128300;</div>
+                <div class="pb-game-info">
+                    <div class="pb-game-name">Code Breaker</div>
+                    <div class="pb-game-diff">${records.game2.rating || '---'}</div>
+                </div>
+                <div class="pb-game-score">${records.game2.score}</div>
+            </div>`;
+    } else {
+        html += `
+            <div class="pb-game-row pb-no-score">
+                <div class="pb-game-icon">&#128300;</div>
+                <div class="pb-game-info">
+                    <div class="pb-game-name">Code Breaker</div>
+                </div>
+                <div class="pb-game-score">--</div>
+            </div>`;
+    }
+
+    content.innerHTML = html;
 }
 
 // ============================================================
