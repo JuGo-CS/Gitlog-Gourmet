@@ -2798,12 +2798,19 @@ footer p {
 /* ============================================
    PAUSE BUTTON & MODAL
    ============================================ */
-#pause-btn {
+#game-top-center {
     position: absolute;
     top: 1%;
     left: 50%;
     transform: translateX(-50%);
     z-index: 20;
+    display: flex;
+    gap: 0.5vw;
+    align-items: center;
+}
+
+#pause-btn,
+#tutorial-btn {
     background: rgba(0, 0, 0, 0.5);
     border: 2px solid rgba(255, 215, 0, 0.4);
     border-radius: 50%;
@@ -2821,13 +2828,24 @@ footer p {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
 }
 
-#pause-btn:hover {
+#tutorial-btn {
+    font-size: 1.6vw;
+    font-weight: bold;
+    font-family: 'Comic Neue', cursive, sans-serif;
+}
+
+#pause-btn:hover,
+#tutorial-btn:hover {
     background: rgba(0, 0, 0, 0.7);
     border-color: #FFD700;
-    transform: translateX(-50%) scale(1.1);
+    transform: scale(1.1);
 }
 
 #pause-btn.visible {
+    display: flex;
+}
+
+#tutorial-btn.visible {
     display: flex;
 }
 
@@ -2910,6 +2928,140 @@ footer p {
 #pause-modal .pause-btn.restart-btn {
     background: linear-gradient(145deg, #FF9800, #E65100);
     border-color: #FFB74D;
+}
+
+/* ============================================
+   GAME 1 TUTORIAL MODAL
+   ============================================ */
+#tutorial-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Comic Neue', cursive, sans-serif;
+}
+
+#tutorial-overlay.active {
+    display: flex;
+    animation: settingsFadeIn 0.3s ease-out forwards;
+}
+
+#tutorial-modal {
+    background: linear-gradient(145deg, #8B3A3A, #5C1A1A);
+    border: 4px solid #FFD700;
+    border-radius: 20px;
+    padding: 1.5vw 2vw;
+    width: 36vw;
+    max-width: 500px;
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.2), 0 0 60px rgba(0, 0, 0, 0.5);
+    animation: settingsPop 0.3s ease-out forwards;
+    max-height: 85vh;
+    overflow-y: auto;
+}
+
+.tutorial-header {
+    text-align: center;
+    margin-bottom: 1vw;
+}
+
+.tutorial-icon {
+    font-size: 2.5vw;
+    display: block;
+    margin-bottom: 0.3vw;
+}
+
+#tutorial-modal h2 {
+    color: #FFD700;
+    font-size: 1.5vw;
+    margin: 0;
+    text-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+    letter-spacing: 0.03em;
+}
+
+.tutorial-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5vw;
+    margin-bottom: 1vw;
+}
+
+.tutorial-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.7vw;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 8px;
+    padding: 0.5vw 0.8vw;
+    border: 1px solid rgba(255, 215, 0, 0.08);
+    transition: background 0.2s;
+}
+
+.tutorial-step:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.step-num {
+    flex-shrink: 0;
+    width: 1.8vw;
+    height: 1.8vw;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #FFD700, #FF8C00);
+    color: #3E1F1F;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9vw;
+    font-weight: bold;
+    margin-top: 0.1vw;
+}
+
+.step-text {
+    color: #FFE0B2;
+    font-size: 0.9vw;
+    line-height: 1.5;
+}
+
+.step-text strong {
+    color: #FFFFFF;
+}
+
+.tutorial-tip {
+    text-align: center;
+    color: #81C784;
+    font-size: 0.85vw;
+    padding: 0.5vw;
+    margin-bottom: 0.8vw;
+    background: rgba(129, 199, 132, 0.1);
+    border-radius: 8px;
+    border: 1px solid rgba(129, 199, 132, 0.2);
+}
+
+.tutorial-got-it {
+    display: block;
+    margin: 0 auto;
+    padding: 0.6vw 2vw;
+    font-size: 1.1vw;
+    font-weight: bold;
+    font-family: 'Comic Neue', cursive, sans-serif;
+    color: #3E1F1F;
+    background: linear-gradient(145deg, #FFD700, #FF8C00);
+    border: 2px solid #FFD700;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+    letter-spacing: 0.03em;
+}
+
+.tutorial-got-it:hover {
+    transform: scale(1.08);
+    box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
 }
 
 /* End Cards Below */

@@ -102,8 +102,9 @@ function startGame1(selectedDifficulty) {
     // Close difficulty popup
     document.getElementById('difficulty-overlay').classList.remove('active');
 
-    // Show pause button
+    // Show pause and tutorial buttons
     document.getElementById('pause-btn').classList.add('visible');
+    document.getElementById('tutorial-btn').classList.add('visible');
 
     // Start game BGM (only after difficulty is chosen)
     AudioManager.playBGM('game1');
@@ -297,6 +298,7 @@ function endGame(){
     }
 
     document.getElementById('pause-btn').classList.remove('visible');
+    document.getElementById('tutorial-btn').classList.remove('visible');
     document.getElementById('pause-overlay').classList.remove('active');
 
     // Stop hourglass GIF
@@ -369,6 +371,7 @@ function endGame(){
 function playAgain() {
     // Show difficulty popup again to let player choose
     document.getElementById('pause-btn').classList.remove('visible');
+    document.getElementById('tutorial-btn').classList.remove('visible');
     document.getElementById('difficulty-overlay').classList.add('active');
 }
 
@@ -407,6 +410,32 @@ function pauseRestart() {
     AudioManager.playButtonPress();
     playAgain();
 }
+
+// ============================================================
+// TUTORIAL
+// ============================================================
+function openTutorial() {
+    const overlay = document.getElementById('tutorial-overlay');
+    if (overlay) overlay.classList.add('active');
+}
+
+function closeTutorial() {
+    const overlay = document.getElementById('tutorial-overlay');
+    if (overlay) overlay.classList.remove('active');
+    // Mark as seen so it won't auto-show again
+    localStorage.setItem('gitlog_tutorial_game1_seen', 'true');
+}
+
+// Auto-show tutorial for first-time players
+(function checkFirstTime() {
+    if (!localStorage.getItem('gitlog_tutorial_game1_seen')) {
+        // Wait for page to settle, then show tutorial
+        setTimeout(function () {
+            const overlay = document.getElementById('tutorial-overlay');
+            if (overlay) overlay.classList.add('active');
+        }, 2000);
+    }
+})();
 
 function adjustTileMatrix() {
     const matrixContainer = document.getElementById("game1-matrix-container");

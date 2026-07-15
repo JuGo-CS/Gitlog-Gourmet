@@ -9,7 +9,10 @@
 <body class="game1-page">
     <div id="aspect-ratio-wrapper">
         <!-- Pause Button -->
-        <button id="pause-btn" onclick="togglePause()" title="Pause">&#9208;</button>
+        <div id="game-top-center">
+            <button id="pause-btn" onclick="togglePause()" title="Pause">&#9208;</button>
+            <button id="tutorial-btn" onclick="openTutorial()" title="How to Play">&#10067;</button>
+        </div>
 
         <!-- Pause Modal -->
         <div id="pause-overlay">
@@ -150,6 +153,46 @@
                     <span class="difficulty-desc">10 &times; 10 grid &mdash; 50 pairs</span>
                 </button>
             </div>
+        </div>
+    </div>
+
+    <!-- Game 1 Tutorial Modal -->
+    <div id="tutorial-overlay">
+        <div id="tutorial-modal">
+            <div class="tutorial-header">
+                <span class="tutorial-icon">&#127873;</span>
+                <h2>How to Play — Matching Pairs</h2>
+            </div>
+            <div class="tutorial-steps">
+                <div class="tutorial-step">
+                    <span class="step-num">1</span>
+                    <span class="step-text">A grid of <strong>face-down tiles</strong> will appear. Each tile hides a food item!</span>
+                </div>
+                <div class="tutorial-step">
+                    <span class="step-num">2</span>
+                    <span class="step-text">Click any tile to <strong>flip it</strong> and reveal the food underneath. &#127858;</span>
+                </div>
+                <div class="tutorial-step">
+                    <span class="step-num">3</span>
+                    <span class="step-text">Click a second tile to <strong>find its match</strong>. Remember what you saw!</span>
+                </div>
+                <div class="tutorial-step">
+                    <span class="step-num">4</span>
+                    <span class="step-text">&#9989; <strong>Match!</strong> Both tiles stay revealed &rarr; you earn <strong>points</strong> + <strong>combo bonus</strong>!</span>
+                </div>
+                <div class="tutorial-step">
+                    <span class="step-num">5</span>
+                    <span class="step-text">&#10060; <strong>No match?</strong> Tiles flip back. Try again! Your combo resets though...</span>
+                </div>
+                <div class="tutorial-step">
+                    <span class="step-num">6</span>
+                    <span class="step-text">&#127881; Match <strong>all pairs</strong> to win! Finish fast for a <strong>time bonus</strong>!</span>
+                </div>
+            </div>
+            <div class="tutorial-tip">
+                &#128161; <strong>Tip:</strong> Chain consecutive matches for a bigger combo bonus!
+            </div>
+            <button class="tutorial-got-it" onclick="closeTutorial()">Got it!</button>
         </div>
     </div>
 
