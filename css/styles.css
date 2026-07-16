@@ -3006,6 +3006,15 @@ footer p {
     background: rgba(255, 255, 255, 0.1);
 }
 
+.tutorial-step.highlight-step {
+    background: rgba(255, 215, 0, 0.12);
+    border: 1px solid rgba(255, 215, 0, 0.3);
+}
+
+.tutorial-step.highlight-step .step-text {
+    color: #FFD700;
+}
+
 .step-num {
     flex-shrink: 0;
     width: 1.8vw;
@@ -3029,6 +3038,70 @@ footer p {
 
 .step-text strong {
     color: #FFFFFF;
+}
+
+/* Tutorial grid examples */
+.tutorial-grid-section {
+    margin: 0.6vw 0;
+    padding: 0.5vw 0.8vw;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 215, 0, 0.1);
+}
+
+.tutorial-grid-section.wrong {
+    border-color: rgba(255, 107, 107, 0.3);
+    background: rgba(255, 107, 107, 0.06);
+}
+
+.tutorial-grid-label {
+    font-size: 0.8vw;
+    color: #81C784;
+    margin-bottom: 0.4vw;
+    font-weight: bold;
+    letter-spacing: 0.02em;
+}
+
+.tutorial-grid-section.wrong .tutorial-grid-label {
+    color: #FF6B6B;
+}
+
+.tutorial-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2vw;
+    font-family: 'Courier New', monospace;
+}
+
+.grid-row {
+    display: flex;
+    align-items: center;
+    gap: 0.3vw;
+}
+
+.grid-cat {
+    color: #FFE0B2;
+    font-size: 0.75vw;
+    font-weight: bold;
+    width: 4.5vw;
+    text-align: right;
+    padding-right: 0.5vw;
+    font-family: 'Comic Neue', cursive, sans-serif;
+}
+
+.grid-check {
+    color: #4CAF50;
+    font-size: 0.9vw;
+    font-weight: bold;
+    width: 1.2vw;
+    text-align: center;
+}
+
+.grid-x {
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 0.8vw;
+    width: 1.2vw;
+    text-align: center;
 }
 
 .tutorial-tip {

@@ -9,7 +9,10 @@
 <body class="game2-page">
     <div id="aspect-ratio-wrapper">
         <!-- Pause Button -->
-        <button id="pause-btn" onclick="togglePause()" title="Pause">&#9208;</button>
+        <div id="game-top-center">
+            <button id="pause-btn" onclick="togglePause()" title="Pause">&#9208;</button>
+            <button id="tutorial-btn" onclick="openTutorial()" title="How to Play">&#10067;</button>
+        </div>
 
         <!-- Pause Modal -->
         <div id="pause-overlay">
@@ -292,6 +295,93 @@
                     <span class="difficulty-desc">4 attempts to guess the combo</span>
                 </button>
             </div>
+        </div>
+    </div>
+
+    <!-- Game 2 Tutorial Modal -->
+    <div id="tutorial-overlay">
+        <div id="tutorial-modal">
+            <div class="tutorial-header">
+                <span class="tutorial-icon">&#128300;</span>
+                <h2>How to Play — Code Breaker</h2>
+            </div>
+            <div class="tutorial-steps">
+                <div class="tutorial-step">
+                    <span class="step-num">1</span>
+                    <span class="step-text">A secret <strong>4-item food combo</strong> is hidden (Fruit, Main, Drink, Dessert).</span>
+                </div>
+                <div class="tutorial-step">
+                    <span class="step-num">2</span>
+                    <span class="step-text">Pick <strong>one food</strong> from each category in the cabinet below. &#127858;</span>
+                </div>
+                <div class="tutorial-step">
+                    <span class="step-num">3</span>
+                    <span class="step-text">Click <strong>Submit</strong> to check your guess against the secret combo.</span>
+                </div>
+                <div class="tutorial-step highlight-step">
+                    <span class="step-num">4</span>
+                    <span class="step-text">&#128308; <strong>Rule:</strong> Each row (category) has only <strong>1 correct item</strong>, and each column (item value) appears only <strong>once</strong> across all categories!</span>
+                </div>
+            </div>
+
+            <div class="tutorial-grid-section">
+                <div class="tutorial-grid-label">&#9989; Correct — each row has 1 &#10003;, each column has 1 &#10003;</div>
+                <div class="tutorial-grid">
+                    <div class="grid-row">
+                        <span class="grid-cat">Fruit</span>
+                        <span class="grid-check">&#10003;</span><span class="grid-x">&#10007;</span><span class="grid-x">&#10007;</span><span class="grid-x">&#10007;</span><span class="grid-x">&#10007;</span>
+                    </div>
+                    <div class="grid-row">
+                        <span class="grid-cat">Main</span>
+                        <span class="grid-x">&#10007;</span><span class="grid-check">&#10003;</span><span class="grid-x">&#10007;</span><span class="grid-x">&#10007;</span><span class="grid-x">&#10007;</span>
+                    </div>
+                    <div class="grid-row">
+                        <span class="grid-cat">Drink</span>
+                        <span class="grid-x">&#10007;</span><span class="grid-x">&#10007;</span><span class="grid-x">&#10007;</span><span class="grid-x">&#10007;</span><span class="grid-check">&#10003;</span>
+                    </div>
+                    <div class="grid-row">
+                        <span class="grid-cat">Dessert</span>
+                        <span class="grid-x">&#10007;</span><span class="grid-x">&#10007;</span><span class="grid-check">&#10003;</span><span class="grid-x">&#10007;</span><span class="grid-x">&#10007;</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tutorial-grid-section wrong">
+                <div class="tutorial-grid-label">&#10060; Wrong — Fruit and Main both picked item #1!</div>
+                <div class="tutorial-grid">
+                    <div class="grid-row">
+                        <span class="grid-cat">Fruit</span>
+                        <span class="grid-check">&#10003;</span><span class="grid-x">&#10007;</span><span class="grid-x">&#10007;</span><span class="grid-x">&#10007;</span><span class="grid-x">&#10007;</span>
+                    </div>
+                    <div class="grid-row">
+                        <span class="grid-cat">Main</span>
+                        <span class="grid-check">&#10003;</span><span class="grid-x">&#10007;</span><span class="grid-x">&#10007;</span><span class="grid-x">&#10007;</span><span class="grid-x">&#10007;</span>
+                    </div>
+                    <div class="grid-row">
+                        <span class="grid-cat">Drink</span>
+                        <span class="grid-x">&#10007;</span><span class="grid-check">&#10003;</span><span class="grid-x">&#10007;</span><span class="grid-x">&#10007;</span><span class="grid-x">&#10007;</span>
+                    </div>
+                    <div class="grid-row">
+                        <span class="grid-cat">Dessert</span>
+                        <span class="grid-x">&#10007;</span><span class="grid-x">&#10007;</span><span class="grid-check">&#10003;</span><span class="grid-x">&#10007;</span><span class="grid-x">&#10007;</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tutorial-steps">
+                <div class="tutorial-step">
+                    <span class="step-num">5</span>
+                    <span class="step-text">&#128994; <strong>Correct Guess</strong> = right column, right row. <br> &#128993; <strong>Correct Row</strong> = right column, wrong row.</span>
+                </div>
+                <div class="tutorial-step">
+                    <span class="step-num">6</span>
+                    <span class="step-text">&#127881; Guess all <strong>4 correctly</strong> to win! Fewer attempts = higher score!</span>
+                </div>
+            </div>
+            <div class="tutorial-tip">
+                &#128161; <strong>Pro Strategy:</strong> Start by picking different items for each category to figure out <strong>which items are even in the combo</strong>. Once you know the 4 correct columns position, it&rsquo;s just a matter of <strong>rearranging them</strong> into the right order!
+            </div>
+            <button class="tutorial-got-it" onclick="closeTutorial()">Got it!</button>
         </div>
     </div>
 

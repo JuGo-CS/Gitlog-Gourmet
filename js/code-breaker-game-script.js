@@ -87,8 +87,9 @@ function startGame2(selectedDifficulty) {
     // Close difficulty popup
     document.getElementById('difficulty-overlay').classList.remove('active');
 
-    // Show pause button
+    // Show pause and tutorial buttons
     document.getElementById('pause-btn').classList.add('visible');
+    document.getElementById('tutorial-btn').classList.add('visible');
 
     // Start game BGM (only after difficulty is chosen)
     AudioManager.playBGM('game2');
@@ -97,6 +98,14 @@ function startGame2(selectedDifficulty) {
     createAttemptObjects();
     assignOnClickEventToImg();
     generateOrderToGuess();
+
+    // Auto-show tutorial for first-time players
+    if (!localStorage.getItem('gitlog_tutorial_game2_seen')) {
+        setTimeout(function () {
+            const overlay = document.getElementById('tutorial-overlay');
+            if (overlay) overlay.classList.add('active');
+        }, 500);
+    }
 }
 
 function createAttemptObjects(){
@@ -346,8 +355,9 @@ function endGame(win){
     
     document.getElementById('blackBackground_forGameHouses').style.zIndex = '10';
 
-    // Hide pause button
+    // Hide pause and tutorial buttons
     document.getElementById('pause-btn').classList.remove('visible');
+    document.getElementById('tutorial-btn').classList.remove('visible');
     document.getElementById('pause-overlay').classList.remove('active');
 
     // Stop BGM
@@ -416,6 +426,7 @@ function calculateGame2Score(win, attemptsUsed) {
 function playAgain() {
     // Show difficulty popup again to let player choose
     document.getElementById('pause-btn').classList.remove('visible');
+    document.getElementById('tutorial-btn').classList.remove('visible');
     document.getElementById('difficulty-overlay').classList.add('active');
 }
 
@@ -444,4 +455,22 @@ function pauseRestart() {
     isPaused = false;
     AudioManager.playButtonPress();
     playAgain();
+}
+
+// ============================================================
+// TUTORIAL
+// ============================================================
+function openTutorial() {
+    const overlay = document.getElementById('tutorial-overlay');
+    if (!overlay) return;
+    overlay.classList.add('active');
+    AudioManager.pauseBGM();
+}
+
+function closeTutorial() {
+    const overlay = document.getElementById('tutorial-overlay');
+    if (!overlay) return;
+    overlay.classList.remove('active');
+    AudioManager.resumeBGM();
+    localStorage.setItem('gitlog_tutorial_game2_seen', 'true');
 }

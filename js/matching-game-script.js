@@ -416,12 +416,36 @@ function pauseRestart() {
 // ============================================================
 function openTutorial() {
     const overlay = document.getElementById('tutorial-overlay');
-    if (overlay) overlay.classList.add('active');
+    if (!overlay) return;
+
+    overlay.classList.add('active');
+
+    // Pause game logic
+    if (gameStarted) {
+        isPaused = true;
+        AudioManager.pauseBGM();
+        if (gameInterval) {
+            clearInterval(gameInterval);
+            gameInterval = null;
+        }
+    }
 }
 
 function closeTutorial() {
     const overlay = document.getElementById('tutorial-overlay');
-    if (overlay) overlay.classList.remove('active');
+    if (!overlay) return;
+
+    overlay.classList.remove('active');
+
+    // Resume game logic
+    if (gameStarted) {
+        isPaused = false;
+        AudioManager.resumeBGM();
+        if (gameInterval === null && numMatchedTiles < totalCards) {
+            gameInterval = setInterval(updateClock, 1000);
+        }
+    }
+
     // Mark as seen so it won't auto-show again
     localStorage.setItem('gitlog_tutorial_game1_seen', 'true');
 }
