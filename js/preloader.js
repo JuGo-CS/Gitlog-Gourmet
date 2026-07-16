@@ -217,12 +217,18 @@
     // Start preloading immediately (don't wait for window.load)
     startPreload();
 
-    // "Let's Go!" button click handler — starts BGM and hides preloader
+    // "Let's Go!" button click handler — starts BGM, title animation, and hides preloader
      if (startBtn) {
         startBtn.addEventListener("click", function letsGo() {
             AudioManager.playBGM('homepage');
             if (AudioManager.bgm.homepage) {
                 AudioManager.bgm.homepage.currentTime = 0;
+            }
+
+            // Start the title card bounce animation
+            const titleCard = document.getElementById('title-card');
+            if (titleCard) {
+                titleCard.classList.add('animate');
             }
 
             preloader.classList.add("hidden");
