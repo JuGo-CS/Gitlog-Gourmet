@@ -4,11 +4,14 @@
 > Built for **CMSC 126 — Web Programming**.
 > *Not a commercial product — just a passion school project by students.*
 
+<img width="1631" height="918" alt="Screenshot 2026-07-19 132853" src="https://github.com/user-attachments/assets/3682d780-c0b6-4426-8955-6cb5404b9f62" />
+
 ---
 
 ## 🚀 About
 
 **Gitlog Gourmet** is a browser-based game portal with a restaurant/food theme. Whether you've got a memory like a steel trap or you're a code-cracking genius, there's a game waiting for you!
+
 
 ### At a Glance
 
@@ -197,6 +200,22 @@ Both games feature a pause button (top-center) that:
     ├── tile-entity/            # Tile images (Game 1)
     └── leaderboard/            # Rank badges
 ```
+
+---
+
+## 📄 Pages Overview
+
+### 🏠 Homepage
+> <img src="https://github.com/user-attachments/assets/78230fa4-b549-42a1-ab4c-bcc0dbe7909b" width="100%" alt="Homepage Screenshot" />
+
+### 🧩 Game 1: Matching Pairs
+> <img src="https://github.com/user-attachments/assets/58656558-ca38-46ad-ac9e-775d63317917" width="100%" alt="Matching Pairs Game" />
+
+### 🔐 Game 2: Code Breaker
+> <img src="https://github.com/user-attachments/assets/06cc80ef-a425-4859-9335-c0023e2ad8c2" width="100%" alt="Code Breaker Game" />
+
+### 🏆 Leaderboards
+> <img src="https://github.com/user-attachments/assets/4c4d9d49-80f6-4237-a2d9-718049bbd78d" width="100%" alt="Leaderboards Screen" />
 
 ---
 
