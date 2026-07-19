@@ -95,7 +95,7 @@
     padding: 0.8vw 2.5vw;
     font-size: 1.3vw;
     font-weight: bold;
-    font-family: 'Comic Neue', cursive, sans-serif;
+    font-family: 'Comic Neue', 'Comic Sans MS', sans-serif;
     color: #3E1F1F;
     background: linear-gradient(145deg, #FFD700, #FF8C00);
     border: 3px solid #FFD700;
@@ -287,7 +287,7 @@
     z-index: 9999;
     align-items: center;
     justify-content: center;
-    font-family: 'Comic Neue', cursive, sans-serif;
+    font-family: 'Comic Neue', 'Comic Sans MS', sans-serif;
 }
 
 #username-overlay.active {
@@ -338,7 +338,7 @@
     border: 3px solid #A0522D;
     border-radius: 10px;
     font-size: 1.1vw;
-    font-family: 'Comic Neue', cursive, sans-serif;
+    font-family: 'Comic Neue', 'Comic Sans MS', sans-serif;
     background: #FFF8F0;
     color: #3E1F1F;
     outline: none;
@@ -358,7 +358,7 @@
     border-radius: 10px;
     font-size: 1.1vw;
     font-weight: bold;
-    font-family: 'Comic Neue', cursive, sans-serif;
+    font-family: 'Comic Neue', 'Comic Sans MS', sans-serif;
     cursor: pointer;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
@@ -503,7 +503,7 @@
     color: #FFD700;
     font-size: 0.9vw;
     font-weight: bold;
-    font-family: 'Comic Neue', cursive, sans-serif;
+    font-family: 'Comic Neue', 'Comic Sans MS', sans-serif;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
     max-width: 8vw;
     overflow: hidden;
@@ -603,7 +603,7 @@
     z-index: 9999;
     align-items: center;
     justify-content: center;
-    font-family: 'Comic Neue', cursive, sans-serif;
+    font-family: 'Comic Neue', 'Comic Sans MS', sans-serif;
 }
 
 #pb-overlay.active {
@@ -711,7 +711,7 @@
     padding: 0.5vw 1.5vw;
     font-size: 0.9vw;
     font-weight: bold;
-    font-family: 'Comic Neue', cursive, sans-serif;
+    font-family: 'Comic Neue', 'Comic Sans MS', sans-serif;
     color: #3E1F1F;
     background: linear-gradient(145deg, #FFD700, #FF8C00);
     border: 2px solid #FFD700;
@@ -740,7 +740,7 @@
     z-index: 9999;
     align-items: center;
     justify-content: center;
-    font-family: 'Comic Neue', cursive, sans-serif;
+    font-family: 'Comic Neue', 'Comic Sans MS', sans-serif;
 }
 
 #settings-overlay.active {
@@ -865,7 +865,7 @@
     padding: 0.6vw 2vw;
     font-size: 1vw;
     font-weight: bold;
-    font-family: 'Comic Neue', cursive, sans-serif;
+    font-family: 'Comic Neue', 'Comic Sans MS', sans-serif;
     color: #3E1F1F;
     background: linear-gradient(145deg, #FFD700, #FF8C00);
     border: 2px solid #FFD700;
@@ -902,7 +902,7 @@
     padding: 0.6vw 1vw;
     color: #FFE0B2;
     font-size: 0.85vw;
-    font-family: 'Comic Neue', cursive, sans-serif;
+    font-family: 'Comic Neue', 'Comic Sans MS', sans-serif;
     cursor: pointer;
     transition: background 0.2s;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
@@ -1944,7 +1944,7 @@ main {
                 border: 2px solid rgba(255, 255, 255, 0.15);
                 background: rgba(0, 0, 0, 0.5);
                 color: rgba(255, 255, 255, 0.6);
-                font-family: 'Comic Neue', cursive, sans-serif;
+                font-family: 'Comic Neue', 'Comic Sans MS', sans-serif;
                 transition: transform 0.2s, background-color 0.2s, color 0.2s, border-color 0.2s;
                 box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
             }
@@ -2059,7 +2059,7 @@ main {
                 font-weight: bold;
                 text-transform: uppercase;
                 letter-spacing: 0.1em;
-                font-family: 'Comic Neue', cursive, sans-serif;
+                font-family: 'Comic Neue', 'Comic Sans MS', sans-serif;
                 text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
                 text-align: center;
             }
@@ -2067,7 +2067,7 @@ main {
             #leaderboard-table-container tbody td {
                 padding: 0.6vw 1.5vw;
                 font-size: 1vw;
-                font-family: 'Comic Neue', cursive, sans-serif;
+                font-family: 'Comic Neue', 'Comic Sans MS', sans-serif;
             }
 
             #leaderboard-table-container tbody tr {
@@ -2681,7 +2681,7 @@ footer p {
     z-index: 9999;
     align-items: center;
     justify-content: center;
-    font-family: 'Comic Neue', cursive, sans-serif;
+    font-family: 'Comic Neue', 'Comic Sans MS', sans-serif;
 }
 
 #difficulty-overlay.active {
@@ -2743,7 +2743,7 @@ footer p {
     border-radius: 12px;
     font-size: 1.3vw;
     font-weight: bold;
-    font-family: 'Comic Neue', cursive, sans-serif;
+    font-family: 'Comic Neue', 'Comic Sans MS', sans-serif;
     cursor: pointer;
     transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
@@ -2832,7 +2832,7 @@ footer p {
 #tutorial-btn {
     font-size: 1.6vw;
     font-weight: bold;
-    font-family: 'Comic Neue', cursive, sans-serif;
+    font-family: 'Comic Neue', 'Comic Sans MS', sans-serif;
 }
 
 #pause-btn:hover,
@@ -2861,7 +2861,7 @@ footer p {
     z-index: 9999;
     align-items: center;
     justify-content: center;
-    font-family: 'Comic Neue', cursive, sans-serif;
+    font-family: 'Comic Neue', 'Comic Sans MS', sans-serif;
 }
 
 #pause-overlay.active {
@@ -2909,7 +2909,7 @@ footer p {
     border-radius: 12px;
     font-size: 1.2vw;
     font-weight: bold;
-    font-family: 'Comic Neue', cursive, sans-serif;
+    font-family: 'Comic Neue', 'Comic Sans MS', sans-serif;
     cursor: pointer;
     transition: transform 0.2s, box-shadow 0.2s;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
@@ -2945,7 +2945,7 @@ footer p {
     z-index: 9999;
     align-items: center;
     justify-content: center;
-    font-family: 'Comic Neue', cursive, sans-serif;
+    font-family: 'Comic Neue', 'Comic Sans MS', sans-serif;
 }
 
 #tutorial-overlay.active {
@@ -3087,7 +3087,7 @@ footer p {
     width: 4.5vw;
     text-align: right;
     padding-right: 0.5vw;
-    font-family: 'Comic Neue', cursive, sans-serif;
+    font-family: 'Comic Neue', 'Comic Sans MS', sans-serif;
 }
 
 .grid-check {
@@ -3122,7 +3122,7 @@ footer p {
     padding: 0.6vw 2vw;
     font-size: 1.1vw;
     font-weight: bold;
-    font-family: 'Comic Neue', cursive, sans-serif;
+    font-family: 'Comic Neue', 'Comic Sans MS', sans-serif;
     color: #3E1F1F;
     background: linear-gradient(145deg, #FFD700, #FF8C00);
     border: 2px solid #FFD700;
@@ -3155,7 +3155,7 @@ footer p {
     max-width: 420px;
     display: none;
     z-index: 1000;
-    font-family: 'Comic Neue', cursive, sans-serif;
+    font-family: 'Comic Neue', 'Comic Sans MS', sans-serif;
     animation: endCardPopIn 0.4s ease-out forwards;
 }
 
@@ -3365,7 +3365,7 @@ footer p {
 }
 
 .rank-reveal .big-rank {
-    font-family: 'Comic Neue', cursive, sans-serif;
+    font-family: 'Comic Neue', 'Comic Sans MS', sans-serif;
     font-size: 8vw;
     font-weight: bold;
     color: #FFD700;
