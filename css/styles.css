@@ -153,7 +153,7 @@
     z-index: 99999;
     align-items: center;
     justify-content: center;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Comic Neue', 'Comic Sans MS', sans-serif;
     flex-direction: column;
     text-align: center;
     padding: 5vw;
@@ -1164,7 +1164,7 @@ main {
             border-radius: 25% 0% 0 0;
 
 
-            font-family: 'Comic Neue', cursive;
+            font-family: 'Comic Neue', 'Comic Sans MS', sans-serif;
             text-shadow:#FFF 0 0 5px, #FFE0B2 0 0 10px,#FFAB91 0 0 20px, #FF6F61 0 0 30px;
             box-shadow: black -3px 3px 3px, rgb(0, 0, 0) -3px 3px 5px, black -3px 3px 10px, black -3px 3px 20px;
             color: #FFFFFF;
@@ -1727,7 +1727,7 @@ main {
                             #FFE0B2 1px 1px 4px,
                             #FFAB91 1px 1px 5px,
                             #FF6F61 1px 1px 6px;
-                font-family: 'Comic Neue', cursive;
+                font-family: 'Comic Neue', 'Comic Sans MS', sans-serif;
                 
             }
 
