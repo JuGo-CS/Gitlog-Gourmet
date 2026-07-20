@@ -78,7 +78,7 @@ async function loadLeaderboardGame1() {
 
         const { data, error } = await query
             .order('score', { ascending: false })
-            .limit(50);
+            .limit(10);
 
         if (error) throw error;
 
@@ -101,7 +101,7 @@ async function loadLeaderboardGame2() {
 
         const { data, error } = await query
             .order('score', { ascending: false })
-            .limit(50);
+            .limit(10);
 
         if (error) throw error;
 
