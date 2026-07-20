@@ -1,11 +1,15 @@
 const numGuessOptions = 5;
 const numGuessTypes = 4;
+const categories = ['fruit', 'main', 'drink', 'dessert']; 
 
 let maxAttempts = 8;
 const correctValues = [];
 let attemptNum = 1;
 let difficulty = "EASY";
 let isPaused = false;
+
+let lockedCategories = { fruit: null, main: null, drink: null, dessert: null };
+let hintedColumns = new Set();
 
 document.addEventListener("DOMContentLoaded", function () {
     // Wait for the white sphere collapse animation, show difficulty popup, play intro
@@ -80,6 +84,10 @@ function startGame2(selectedDifficulty) {
     attemptNum = 1;
     isPaused = false;
 
+    lockedCategories = { fruit: null, main: null, drink: null, dessert: null };
+    hintedColumns = new Set();
+    resetCabinetVisualState();
+
     // Hide end card if visible
     document.getElementById('game2-end-card').style.display = 'none';
     document.getElementById('blackBackground_forGameHouses').style.zIndex = '-1';
@@ -153,9 +161,14 @@ function assignOnClickEventToImg(){
         choice.addEventListener('click', function () {
             const radio = choice.closest("td").querySelector("input[type='radio']");
 
-            if (radio) {
-                radio.checked = true;
+            if (!radio) return;
+
+            const clickedCategory = radio.name.replace('-choice', '');
+            if (lockedCategories[clickedCategory] !== null) {
+                return;
             }
+
+            radio.checked = true;
 
             let divGuessContainer;
             const img = document.createElement("img");
@@ -236,12 +249,14 @@ function evaluateGuess() {
         }
     }
 
-    for (let i = 0; i < playerWrongGuess.length; i++){
-        if (correctRowValues.has(playerWrongGuess[i])){
-            correctRow++;
+    for (let i = 0; i < numGuessTypes; i++){
+        if (playerGuessValues[i] === correctValues[i]){
+            lockedCategories[categories[i]] = correctValues[i];
+        } else if (correctRowValues.has(playerGuessValues[i])){
+            hintedColumns.add(playerGuessValues[i]);
         }
     }
-
+    updateCabinetVisualState();
 
     // for background ~ open take out box
     // const openTakeOutBox = document.createElement('img'); 
@@ -280,7 +295,7 @@ function evaluateGuess() {
     attemptNum++;
 
     document.getElementById("correct-guess-prompt").innerHTML = `Correct Guess: ${correctGuess}`;
-    document.getElementById("correct-row-prompt").innerHTML = `Correct Row: ${correctRow}`;
+    document.getElementById("correct-row-prompt").innerHTML = `Correct Column: ${correctRow}`;
 
     if (correctGuess == numGuessTypes ){
         endGame(true);
@@ -292,6 +307,47 @@ function evaluateGuess() {
         // Wrong guess (but game continues) — play wrong SFX
         AudioManager.playWrong();
     }
+}
+
+function updateCabinetVisualState() {
+    categories.forEach(cat => {
+        const radios = document.querySelectorAll(`input[name="${cat}-choice"]`);
+        const lockedValue = lockedCategories[cat];
+ 
+        radios.forEach(radio => {
+            const td = radio.closest('td');
+ 
+            if (lockedValue !== null) {
+                if (radio.value === lockedValue) {
+                    radio.checked = true;
+                    radio.classList.add('locked-correct');
+                } else {
+                    radio.classList.remove('locked-correct');
+                }
+                radio.disabled = true; 
+                td.classList.remove('hint-yellow-col');
+            } else {
+                radio.disabled = false;
+                radio.classList.remove('locked-correct');
+                if (hintedColumns.has(radio.value)) {
+                    td.classList.add('hint-yellow-col');
+                } else {
+                    td.classList.remove('hint-yellow-col');
+                }
+            }
+        });
+    });
+}
+
+function resetCabinetVisualState() {
+    document.querySelectorAll('#game2-cabinet input[type="radio"]').forEach(radio => {
+        radio.checked = false;
+        radio.disabled = false;
+        radio.classList.remove('locked-correct');
+    });
+    document.querySelectorAll('#game2-cabinet td').forEach(td => {
+        td.classList.remove('hint-yellow-col');
+    });
 }
 
 function isValidSubmit() {
