@@ -1,5 +1,5 @@
-const numGuessOptions = 5;
-const numGuessTypes = 4;
+let numGuessOptions = 5;
+let numGuessTypes = 4;
 const categories = ['fruit', 'main', 'drink', 'dessert']; 
 
 let maxAttempts = 8;
@@ -70,15 +70,6 @@ document.getElementById("game2-submit-button").addEventListener("click", evaluat
 function startGame2(selectedDifficulty) {
     difficulty = selectedDifficulty;
 
-    // Set attempts based on difficulty
-    if (difficulty === "EASY") {
-        maxAttempts = 6;
-    } else if (difficulty === "MEDIUM") {
-        maxAttempts = 5;
-    } else { // HARD
-        maxAttempts = 4;
-    }
-
     // Reset state
     correctValues.length = 0;
     attemptNum = 1;
@@ -87,6 +78,26 @@ function startGame2(selectedDifficulty) {
     lockedCategories = { fruit: null, main: null, drink: null, dessert: null };
     hintedColumns = new Set();
     resetCabinetVisualState();
+
+    // ============================================================
+    // DIFFICULTY SETTINGS
+    // ============================================================
+    if (difficulty === "EASY") {
+        // 🌱 Easy — 5 options, 6 attempts, full hints (green lock + yellow column)
+        maxAttempts = 6;
+        numGuessOptions = 5;
+        numGuessTypes = 4;
+    } else if (difficulty === "MEDIUM") {
+        // ⚡ Medium — 5 options, 5 attempts, green lock only (no column hints)
+        maxAttempts = 5;
+        numGuessOptions = 5;
+        numGuessTypes = 4;
+    } else { // HARD
+        // 🔥 Hard — 6 options, 4 attempts, NO hints at all (no green, no yellow, no numbers)
+        maxAttempts = 4;
+        numGuessOptions = 6;
+        numGuessTypes = 4;
+    }
 
     // Hide end card if visible
     document.getElementById('game2-end-card').style.display = 'none';
@@ -120,6 +131,9 @@ function createAttemptObjects(){
     const attemptContainer = document.getElementById("game2-attempt-container");
     attemptContainer.innerHTML = ""; // Clear previous attempts
 
+    // Determine which categories to show based on difficulty
+    const activeCategories = categories.slice(0, numGuessTypes);
+
     for (let i = 1; i <= maxAttempts; i++){
         const attemptContent = document.createElement("div");
         attemptContent.id = `attempt-${i}`;
@@ -127,22 +141,11 @@ function createAttemptObjects(){
             const attemptImageContainer = document.createElement("div");
             attemptImageContainer.classList.add("attempt-image-container");
 
-            const fruitImgContainer = document.createElement("div");
-            fruitImgContainer.id = `fruit-attempt-${i}`;
-
-            const mainImgContainer = document.createElement("div");
-            mainImgContainer.id = `main-attempt-${i}`;
-
-            const drinkImgContainer = document.createElement("div");
-            drinkImgContainer.id = `drink-attempt-${i}`;
-
-            const dessertImgContainer = document.createElement("div");
-            dessertImgContainer.id = `dessert-attempt-${i}`;
-
-            attemptImageContainer.appendChild(fruitImgContainer);
-            attemptImageContainer.appendChild(mainImgContainer);
-            attemptImageContainer.appendChild(drinkImgContainer);
-            attemptImageContainer.appendChild(dessertImgContainer);
+            activeCategories.forEach(cat => {
+                const imgContainer = document.createElement("div");
+                imgContainer.id = `${cat}-attempt-${i}`;
+                attemptImageContainer.appendChild(imgContainer);
+            });
 
         attemptContent.appendChild(attemptImageContainer);
 
@@ -164,7 +167,8 @@ function assignOnClickEventToImg(){
             if (!radio) return;
 
             const clickedCategory = radio.name.replace('-choice', '');
-            if (lockedCategories[clickedCategory] !== null) {
+            // On HARD mode, allow changing any category even if locked
+            if (difficulty !== "HARD" && lockedCategories[clickedCategory] !== null) {
                 return;
             }
 
@@ -175,19 +179,15 @@ function assignOnClickEventToImg(){
             img.src = choice.src;
             img.alt = choice.alt;
 
-            if (choice.classList.contains("fruit")) {
-                divGuessContainer = document.getElementById("fruit-guess")
+            // Match by class name — works for any category
+            for (const cat of categories) {
+                if (choice.classList.contains(cat)) {
+                    divGuessContainer = document.getElementById(`${cat}-guess`);
+                    break;
+                }
             }
-            else if (choice.classList.contains("main")) {
-                divGuessContainer = document.getElementById("main-guess")
-            }
-            else if (choice.classList.contains("drink")) {
-                divGuessContainer = document.getElementById("drink-guess")
-            }
-            else if (choice.classList.contains("dessert")) {
-                divGuessContainer = document.getElementById("dessert-guess")
-            }
-            else {
+
+            if (!divGuessContainer) {
                 console.error("Unknown class for choice:", choice.classList);
                 return;
             }
@@ -214,10 +214,10 @@ function generateOrderToGuess(){
 }
 
 function resetGuess() {
-    document.getElementById("fruit-guess").innerHTML = "";
-    document.getElementById("main-guess").innerHTML = "";
-    document.getElementById("drink-guess").innerHTML = "";
-    document.getElementById("dessert-guess").innerHTML = "";
+    categories.slice(0, numGuessTypes).forEach(cat => {
+        const el = document.getElementById(`${cat}-guess`);
+        if (el) el.innerHTML = "";
+    });
 }
 
 function evaluateGuess() {
@@ -226,12 +226,15 @@ function evaluateGuess() {
         return;
     }
 
-    const playerFruitGuessValue = document.querySelector('input[name="fruit-choice"]:checked').value;
-    const playerMainGuessValue = document.querySelector('input[name="main-choice"]:checked').value;
-    const playerDrinkGuessValue = document.querySelector('input[name="drink-choice"]:checked').value;
-    const playerDessertGuessValue = document.querySelector('input[name="dessert-choice"]:checked').value;
+    const activeCategories = categories.slice(0, numGuessTypes);
+    const playerGuessValues = [];
+    const categoryNames = [];
 
-    const playerGuessValues = [playerFruitGuessValue, playerMainGuessValue, playerDrinkGuessValue, playerDessertGuessValue];
+    activeCategories.forEach(cat => {
+        const selected = document.querySelector(`input[name="${cat}-choice"]:checked`);
+        playerGuessValues.push(selected ? selected.value : null);
+        categoryNames.push(cat);
+    });
 
     let correctGuess = 0;
     let correctRow = 0;
@@ -257,46 +260,38 @@ function evaluateGuess() {
 
     for (let i = 0; i < numGuessTypes; i++){
         if (playerGuessValues[i] === correctValues[i]){
-            lockedCategories[categories[i]] = correctValues[i];
+            lockedCategories[categoryNames[i]] = correctValues[i];
         } else if (correctRowValues.has(playerGuessValues[i])){
             hintedColumns.add(playerGuessValues[i]);
         }
     }
     updateCabinetVisualState();
 
-    // for background ~ open take out box
-    // const openTakeOutBox = document.createElement('img'); 
-    // openTakeOutBox.src = "assets/cabinet/Takeout box open back.png";
+    // Open takeout box
     document.getElementById(`attempt-${attemptNum}`).style.backgroundImage = 'url("assets/images/Takeout box open back.png")';
     document.getElementById(`attempt-${attemptNum}`).style.backgroundSize = 'cover';
     document.getElementById(`attempt-${attemptNum}`).style.backgroundRepeat = 'no-repeat';
 
+    // Show guessed items in the attempt box
+    activeCategories.forEach((cat, idx) => {
+        const img = document.createElement('img');
+        img.src = `assets/cabinet/${cat}-${playerGuessValues[idx]}.png`;
+        const container = document.getElementById(`${cat}-attempt-${attemptNum}`);
+        if (container) container.appendChild(img);
+    });
 
-    const fruitAttemptImg = document.createElement('img');
-    fruitAttemptImg.src = "assets/cabinet/fruit-" + playerFruitGuessValue + ".png";
-    document.getElementById(`fruit-attempt-${attemptNum}`).appendChild(fruitAttemptImg);
+    // Show hint numbers (hidden on HARD — player must rely on memory)
+    if (difficulty !== "HARD") {
+        const correctGuessStatus = document.createElement('h3');
+        correctGuessStatus.innerHTML = correctGuess.toString();
+        correctGuessStatus.classList.add("attempt-hint-correct-guess");
+        document.getElementById(`attempt-${attemptNum}-hint`).appendChild(correctGuessStatus);
 
-    const mainAttemptImg = document.createElement('img');
-    mainAttemptImg.src = "assets/cabinet/main-" + playerMainGuessValue + ".png";
-    document.getElementById(`main-attempt-${attemptNum}`).appendChild(mainAttemptImg);
-
-    const drinkAttemptImg = document.createElement('img');
-    drinkAttemptImg.src = "assets/cabinet/drink-" + playerDrinkGuessValue + ".png";
-    document.getElementById(`drink-attempt-${attemptNum}`).appendChild(drinkAttemptImg);
-
-    const dessertAttemptImg = document.createElement('img');
-    dessertAttemptImg.src = "assets/cabinet/dessert-" + playerDessertGuessValue + ".png";
-    document.getElementById(`dessert-attempt-${attemptNum}`).appendChild(dessertAttemptImg);
-
-    const correctGuessStatus = document.createElement('h3');
-    correctGuessStatus.innerHTML = correctGuess.toString();
-    correctGuessStatus.classList.add("attempt-hint-correct-guess");
-    document.getElementById(`attempt-${attemptNum}-hint`).appendChild(correctGuessStatus);
-
-    const correctRowStatus = document.createElement('h3');
-    correctRowStatus.innerHTML = correctRow.toString();
-    correctRowStatus.classList.add("attempt-hint-correct-row");
-    document.getElementById(`attempt-${attemptNum}-hint`).appendChild(correctRowStatus);
+        const correctRowStatus = document.createElement('h3');
+        correctRowStatus.innerHTML = correctRow.toString();
+        correctRowStatus.classList.add("attempt-hint-correct-row");
+        document.getElementById(`attempt-${attemptNum}-hint`).appendChild(correctRowStatus);
+    }
 
     attemptNum++;
 
@@ -322,20 +317,47 @@ function updateCabinetVisualState() {
  
         radios.forEach(radio => {
             const td = radio.closest('td');
+            const isCorrect = lockedValue !== null && radio.value === lockedValue;
  
             if (lockedValue !== null) {
                 if (radio.value === lockedValue) {
                     radio.checked = true;
-                    radio.classList.add('locked-correct');
-                } else {
-                    radio.classList.remove('locked-correct');
                 }
-                radio.disabled = true; 
-                td.classList.remove('hint-yellow-col');
+
+                // HARD: no visual hints at all — everything stays clickable
+                if (difficulty === "HARD") {
+                    radio.disabled = false;
+                    radio.classList.remove('locked-correct');
+                    td.classList.remove('hint-yellow-col');
+                }
+                // MEDIUM: green lock only, no column hints
+                else if (difficulty === "MEDIUM") {
+                    radio.disabled = true;
+                    if (radio.value === lockedValue) {
+                        radio.classList.add('locked-correct');
+                    } else {
+                        radio.classList.remove('locked-correct');
+                    }
+                    td.classList.remove('hint-yellow-col');
+                }
+                // EASY: full hints (green lock + no yellow on locked row)
+                else {
+                    radio.disabled = true;
+                    if (radio.value === lockedValue) {
+                        radio.classList.add('locked-correct');
+                    } else {
+                        radio.classList.remove('locked-correct');
+                    }
+                    td.classList.remove('hint-yellow-col');
+                }
             } else {
                 radio.disabled = false;
                 radio.classList.remove('locked-correct');
-                if (hintedColumns.has(radio.value)) {
+
+                // MEDIUM & HARD: no column hints
+                if (difficulty === "MEDIUM" || difficulty === "HARD") {
+                    td.classList.remove('hint-yellow-col');
+                } else if (hintedColumns.has(radio.value)) {
                     td.classList.add('hint-yellow-col');
                 } else {
                     td.classList.remove('hint-yellow-col');
@@ -378,20 +400,16 @@ function isValidSubmit() {
 function endGame(win){
     const result = (win ? "YOU WIN" : "YOU LOSE");
 
-    const ids = [
-        'fruit-correct',
-        'main-correct',
-        'drink-correct',
-        'dessert-correct'
-      ];
+    const activeCategories = categories.slice(0, numGuessTypes);
 
-    ids.forEach(id => {
-        const container = document.getElementById(id);
-        const img = container.querySelector('img');
-        if (img) {
-          img.remove();
+    // Clear old correct images
+    activeCategories.forEach(cat => {
+        const container = document.getElementById(`${cat}-correct`);
+        if (container) {
+            const img = container.querySelector('img');
+            if (img) img.remove();
         }
-     });
+    });
 
     document.getElementById('game2-end-card').style.display = 'flex';
     document.getElementById('game2-result').innerHTML = result;
@@ -399,21 +417,15 @@ function endGame(win){
     document.getElementById('difficulty-end-card').innerHTML = difficulty;
     document.getElementById('score-end-card').innerHTML = calculateGame2Score(win, attemptNum - 1);
 
-    const fruitCorrectImg = document.createElement('img');
-    fruitCorrectImg.src = "assets/cabinet/fruit-" + correctValues[0] + ".png";
-    document.getElementById("fruit-correct").appendChild(fruitCorrectImg);
-
-    const mainCorrectImg = document.createElement('img');
-    mainCorrectImg.src = "assets/cabinet/main-" + correctValues[1] + ".png";
-    document.getElementById("main-correct").appendChild(mainCorrectImg);
-
-    const drinkCorrectImg = document.createElement('img');
-    drinkCorrectImg.src = "assets/cabinet/drink-" + correctValues[2] + ".png";
-    document.getElementById("drink-correct").appendChild(drinkCorrectImg);
-
-    const dessertCorrectImg = document.createElement('img');
-    dessertCorrectImg.src = "assets/cabinet/dessert-" + correctValues[3] + ".png";
-    document.getElementById("dessert-correct").appendChild(dessertCorrectImg);
+    // Show correct items
+    activeCategories.forEach((cat, idx) => {
+        const container = document.getElementById(`${cat}-correct`);
+        if (container) {
+            const img = document.createElement('img');
+            img.src = `assets/cabinet/${cat}-${correctValues[idx]}.png`;
+            container.appendChild(img);
+        }
+    });
     
     document.getElementById('blackBackground_forGameHouses').style.zIndex = '10';
 
@@ -429,14 +441,16 @@ function endGame(win){
     if (!win) {
         const comboContainer = document.getElementById('game2-correct-combo');
         if (comboContainer) {
-            const slots = ['combo-fruit', 'combo-main', 'combo-drink', 'combo-dessert'];
-            const values = correctValues;
-            slots.forEach((slotId, i) => {
-                const slot = document.getElementById(slotId);
-                if (slot) {
-                    slot.innerHTML = `<img src="assets/cabinet/${['fruit','main','drink','dessert'][i]}-${values[i]}.png" alt="Correct ${['Fruit','Main','Drink','Dessert'][i]}">`;
-                }
-            });
+            const comboItems = comboContainer.querySelector('.combo-items');
+            if (comboItems) {
+                comboItems.innerHTML = '';
+                activeCategories.forEach((cat, idx) => {
+                    const slot = document.createElement('div');
+                    slot.className = 'combo-slot';
+                    slot.innerHTML = `<img src="assets/cabinet/${cat}-${correctValues[idx]}.png" alt="Correct ${cat}">`;
+                    comboItems.appendChild(slot);
+                });
+            }
             comboContainer.style.display = 'block';
         }
     }
