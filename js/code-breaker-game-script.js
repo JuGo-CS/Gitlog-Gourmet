@@ -83,19 +83,16 @@ function startGame2(selectedDifficulty) {
     // DIFFICULTY SETTINGS
     // ============================================================
     if (difficulty === "EASY") {
-        // 🌱 Easy — 5 options, 6 attempts, full hints (green lock + yellow column)
         maxAttempts = 6;
         numGuessOptions = 5;
         numGuessTypes = 4;
     } else if (difficulty === "MEDIUM") {
-        // ⚡ Medium — 5 options, 5 attempts, green lock only (no column hints)
         maxAttempts = 5;
         numGuessOptions = 5;
         numGuessTypes = 4;
     } else { // HARD
-        // 🔥 Hard — 6 options, 4 attempts, NO hints at all (no green, no yellow, no numbers)
         maxAttempts = 4;
-        numGuessOptions = 6;
+        numGuessOptions = 5;
         numGuessTypes = 4;
     }
 
@@ -324,10 +321,14 @@ function updateCabinetVisualState() {
                     radio.checked = true;
                 }
 
-                // HARD: no visual hints at all — everything stays clickable
+                // HARD: green lock, but no column hints
                 if (difficulty === "HARD") {
-                    radio.disabled = false;
-                    radio.classList.remove('locked-correct');
+                    radio.disabled = true;
+                    if (radio.value === lockedValue) {
+                        radio.classList.add('locked-correct');
+                    } else {
+                        radio.classList.remove('locked-correct');
+                    }
                     td.classList.remove('hint-yellow-col');
                 }
                 // MEDIUM: green lock only, no column hints
