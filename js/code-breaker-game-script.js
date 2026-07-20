@@ -249,6 +249,12 @@ function evaluateGuess() {
         }
     }
 
+    for (let i = 0; i < playerWrongGuess.length; i++){
+        if (correctRowValues.has(playerWrongGuess[i])){
+            correctRow++;
+        }
+    }
+
     for (let i = 0; i < numGuessTypes; i++){
         if (playerGuessValues[i] === correctValues[i]){
             lockedCategories[categories[i]] = correctValues[i];
