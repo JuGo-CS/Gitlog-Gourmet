@@ -341,7 +341,7 @@ function endGame(){
         submitScoreGame1(playerName, score, difficulty).then(result => {
             if (result && result.submitted) {
                 // Check rank after submission
-                getPlayerRank('leaderboard_game1', playerName).then(rank => {
+                getPlayerRank('leaderboard_game1', playerName, difficulty).then(rank => {
                     const rankEl = document.getElementById('game1-rank-display');
                     if (rankEl && rank !== null) {
                         if (rank <= 3) {

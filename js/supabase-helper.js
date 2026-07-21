@@ -2,7 +2,6 @@
 // GITLOG GOURMET - Supabase Helper
 // ============================================================
 // Shared Supabase client and score submission functions.
-// Include this BEFORE game scripts on game pages.
 // ============================================================
 
 // ============================================================
@@ -261,12 +260,19 @@ async function submitScoreGame2(playerName, score, difficulty) {
 
 // ============================================================
 // CHECK LEADERBOARD RANK (for end-card display)
+// Optionally filter by difficulty for difficulty-specific rankings.
 // ============================================================
-async function getPlayerRank(tableName, playerName) {
+async function getPlayerRank(tableName, playerName, difficulty) {
     try {
-        const { data, error } = await supabaseClient
+        let query = supabaseClient
             .from(tableName)
-            .select('player_name, score')
+            .select('player_name, score');
+
+        if (difficulty) {
+            query = query.eq('rating', difficulty);
+        }
+
+        const { data, error } = await query
             .order('score', { ascending: false })
             .limit(50);
 
