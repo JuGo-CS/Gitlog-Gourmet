@@ -133,34 +133,36 @@ function getPlayerName() {
 // ============================================================
 async function submitScoreGame1(playerName, score, difficulty) {
     if (!playerName || score <= 0) return false;
-    // Normalize to lowercase for case-insensitive matching
+    // Normalize for case-insensitive matching
     const normalizedName = playerName.trim();
     try {
-        // Check existing score for this player (case-insensitive via JS)
+        // Fetch all rows for this player to find matching name + difficulty
         const { data: allRows, error: fetchError } = await supabaseClient
             .from('leaderboard_game1')
-            .select('score, player_name');
+            .select('score, player_name, rating');
 
         if (fetchError) {
             console.error("Error checking existing score:", fetchError);
         }
 
-        // Find existing entry with same name (case-insensitive)
+        // Find existing entry with same name AND same difficulty (case-insensitive)
         const existing = allRows ? allRows.find(r => 
-            r.player_name.toLowerCase() === normalizedName.toLowerCase()
+            r.player_name.toLowerCase() === normalizedName.toLowerCase() &&
+            r.rating === difficulty
         ) : null;
 
         if (existing && score <= existing.score) {
-            console.log(`Score not submitted — ${normalizedName}'s existing score (${existing.score}) is higher or equal.`);
+            console.log(`Score not submitted — ${normalizedName}'s existing ${difficulty} score (${existing.score}) is higher or equal.`);
             return { submitted: false, reason: 'existing_higher' };
         }
 
         if (existing) {
-            // Delete old lower score — match by exact stored name
+            // Delete old lower score for this specific difficulty
             const { error: deleteError } = await supabaseClient
                 .from('leaderboard_game1')
                 .delete()
-                .eq('player_name', existing.player_name);
+                .eq('player_name', existing.player_name)
+                .eq('rating', difficulty);
             
             if (deleteError) {
                 console.error("Error deleting old score:", deleteError);
@@ -209,22 +211,24 @@ async function submitScoreGame2(playerName, score, difficulty) {
             console.error("Error checking existing score:", fetchError);
         }
 
-        // Find existing entry with same name (case-insensitive)
+        // Find existing entry with same name AND same difficulty (case-insensitive)
         const existing = allRows ? allRows.find(r => 
-            r.player_name.toLowerCase() === normalizedName.toLowerCase()
+            r.player_name.toLowerCase() === normalizedName.toLowerCase() &&
+            r.rating === difficulty
         ) : null;
 
         if (existing && score <= existing.score) {
-            console.log(`Score not submitted — ${normalizedName}'s existing score (${existing.score}) is higher or equal.`);
+            console.log(`Score not submitted — ${normalizedName}'s existing ${difficulty} score (${existing.score}) is higher or equal.`);
             return { submitted: false, reason: 'existing_higher' };
         }
 
         if (existing) {
-            // Delete old lower score — match by exact stored name
+            // Delete old lower score for this specific difficulty
             const { error: deleteError } = await supabaseClient
                 .from('leaderboard_game2')
                 .delete()
-                .eq('player_name', existing.player_name);
+                .eq('player_name', existing.player_name)
+                .eq('rating', difficulty);
             
             if (deleteError) {
                 console.error("Error deleting old score:", deleteError);
