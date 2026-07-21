@@ -656,6 +656,16 @@
     color: #FFFFFF;
 }
 
+.pb-game-header {
+    color: #FFD700;
+    font-size: 1vw;
+    font-weight: bold;
+    margin: 0.6vw 0 0.3vw 0;
+    padding-bottom: 0.2vw;
+    border-bottom: 1px solid rgba(255, 215, 0, 0.15);
+    letter-spacing: 0.03em;
+}
+
 .pb-game-row {
     display: flex;
     align-items: center;

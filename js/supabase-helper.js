@@ -298,28 +298,26 @@ async function getPlayerRank(tableName, playerName) {
 // ============================================================
 async function getPersonalBest(playerName) {
     if (!playerName) return null;
-    const result = { game1: null, game2: null };
+    const result = { game1: [], game2: [] };
     try {
         const { data: data1 } = await supabaseClient
             .from('leaderboard_game1')
             .select('score, rating')
             .eq('player_name', playerName)
-            .order('score', { ascending: false })
-            .limit(1);
+            .order('score', { ascending: false });
 
-        if (data1 && data1.length > 0) {
-            result.game1 = data1[0];
+        if (data1) {
+            result.game1 = data1;
         }
 
         const { data: data2 } = await supabaseClient
             .from('leaderboard_game2')
             .select('score, rating')
             .eq('player_name', playerName)
-            .order('score', { ascending: false })
-            .limit(1);
+            .order('score', { ascending: false });
 
-        if (data2 && data2.length > 0) {
-            result.game2 = data2[0];
+        if (data2) {
+            result.game2 = data2;
         }
 
         return result;

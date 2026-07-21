@@ -407,49 +407,46 @@ async function loadPersonalBest() {
 
     let html = `<div class="pb-user">&#128100; <span>${escapeHtml(username)}</span></div>`;
 
-    // Game 1
-    if (records.game1) {
-        html += `
-            <div class="pb-game-row">
-                <div class="pb-game-icon">&#127918;</div>
-                <div class="pb-game-info">
-                    <div class="pb-game-name">Matching Pairs</div>
-                    <div class="pb-game-diff">${records.game1.rating || '---'}</div>
-                </div>
-                <div class="pb-game-score">${records.game1.score}</div>
-            </div>`;
-    } else {
-        html += `
-            <div class="pb-game-row pb-no-score">
-                <div class="pb-game-icon">&#127918;</div>
-                <div class="pb-game-info">
-                    <div class="pb-game-name">Matching Pairs</div>
-                </div>
-                <div class="pb-game-score">--</div>
-            </div>`;
+    // Helper to get score for a specific difficulty
+    function getScoreForDifficulty(scores, diff) {
+        const entry = scores.find(s => s.rating === diff);
+        return entry ? entry.score : null;
     }
 
-    // Game 2
-    if (records.game2) {
-        html += `
-            <div class="pb-game-row">
-                <div class="pb-game-icon">&#128300;</div>
-                <div class="pb-game-info">
-                    <div class="pb-game-name">Code Breaker</div>
-                    <div class="pb-game-diff">${records.game2.rating || '---'}</div>
-                </div>
-                <div class="pb-game-score">${records.game2.score}</div>
-            </div>`;
-    } else {
-        html += `
-            <div class="pb-game-row pb-no-score">
-                <div class="pb-game-icon">&#128300;</div>
-                <div class="pb-game-info">
-                    <div class="pb-game-name">Code Breaker</div>
-                </div>
-                <div class="pb-game-score">--</div>
-            </div>`;
+    function getDiffIcon(diff) {
+        if (diff === 'EASY') return '&#127793;';
+        if (diff === 'MEDIUM') return '&#9889;';
+        if (diff === 'HARD') return '&#128293;';
+        return '';
     }
+
+    // Game 1 — show all 3 difficulties
+    html += `<div class="pb-game-header">&#127918; Matching Pairs</div>`;
+    ['EASY', 'MEDIUM', 'HARD'].forEach(diff => {
+        const score = getScoreForDifficulty(records.game1, diff);
+        html += `
+            <div class="pb-game-row ${score === null ? 'pb-no-score' : ''}">
+                <div class="pb-game-icon">${getDiffIcon(diff)}</div>
+                <div class="pb-game-info">
+                    <div class="pb-game-name">${diff.charAt(0) + diff.slice(1).toLowerCase()}</div>
+                </div>
+                <div class="pb-game-score">${score !== null ? score : '--'}</div>
+            </div>`;
+    });
+
+    // Game 2 — show all 3 difficulties
+    html += `<div class="pb-game-header">&#128300; Code Breaker</div>`;
+    ['EASY', 'MEDIUM', 'HARD'].forEach(diff => {
+        const score = getScoreForDifficulty(records.game2, diff);
+        html += `
+            <div class="pb-game-row ${score === null ? 'pb-no-score' : ''}">
+                <div class="pb-game-icon">${getDiffIcon(diff)}</div>
+                <div class="pb-game-info">
+                    <div class="pb-game-name">${diff.charAt(0) + diff.slice(1).toLowerCase()}</div>
+                </div>
+                <div class="pb-game-score">${score !== null ? score : '--'}</div>
+            </div>`;
+    });
 
     content.innerHTML = html;
 }
